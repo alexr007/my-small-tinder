@@ -29,6 +29,6 @@ public class UsersServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
+		resp.getWriter().print("<h1 align=\"center\">YEAH!You pressed the button and it worked!</h1>");
 	}
 }
