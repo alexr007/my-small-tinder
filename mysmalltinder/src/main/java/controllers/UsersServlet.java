@@ -9,7 +9,7 @@ import java.io.IOException;
 public class UsersServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.getWriter().print("Congrats! This tiny little peace of code works.");
+		resp.getWriter().print("<h1>Congrats! This tiny little peace of code works.</h1>");
 	}
 	
 	@Override
