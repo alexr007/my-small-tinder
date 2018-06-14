@@ -16,7 +16,7 @@ public class UsersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
 		String appDir = System.getProperty("user.dir");
-		cfg.setDirectoryForTemplateLoading(new File(appDir + "/mysmalltinder/lib/html"));
+		cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		cfg.setLogTemplateExceptions(false);
@@ -28,6 +28,6 @@ public class UsersServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.getWriter().print("<h1 align=\"center\">YEAH!You pressed the button and it worked!</h1>");
+
 	}
 }

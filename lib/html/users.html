@@ -5,14 +5,18 @@
     <title>Users</title>
 </head>
 <body align="center">
-<form action="/users" method="post">
-    <h1>Mrs.Hudson</h1>
+<h1>Mrs.Hudson</h1>
+<div>
     <img src="https://pbs.twimg.com/profile_images/1783390898/twitter_av_400x400.png">
     <br>
-    <div>
+    <form action="/users" method="post" style="display:inline-block;">
+        <input type="hidden" name="choice" value="like">
         <button type="submit" name="LIKE"><h2>LIKE</h2></button>
+    </form>
+
+    <form style="display:inline-block;">
         <button type="submit" name="DISLIKE"><h2>DISLIKE</h2></button>
-    </div>
-</form>
+    </form>
+</div>
 </body>
 </html>
