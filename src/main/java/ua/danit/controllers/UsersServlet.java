@@ -1,4 +1,4 @@
-package controllers;
+package ua.danit.controllers;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 
 public class UsersServlet extends HttpServlet {
 	@Override

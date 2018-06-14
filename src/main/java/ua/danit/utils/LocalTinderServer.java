@@ -1,6 +1,6 @@
-package utils;
+package ua.danit.utils;
 
-import controllers.UsersServlet;
+import ua.danit.controllers.UsersServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
