@@ -6,7 +6,6 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.UserDemo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +17,11 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LikedServlet extends HttpServlet {
+public class MessagesServlet extends HttpServlet {
     private final UsersDAO users;
     private final LikedDAO likedDAO;
 
-    public LikedServlet(UsersDAO userDAO, LikedDAO likedDAO) {
+    public MessagesServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO;
         this.likedDAO = likedDAO;
     }
@@ -40,16 +39,19 @@ public class LikedServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Map<String, LikedDAO> map = new HashMap<>();
-        map.put("liked", likedDAO);
-
-        Template tmpl = cfg.getTemplate("liked.html");
+//        Map<String, LikedDAO> map = new HashMap<>();
+//        map.put("liked", likedDAO);
+//
+//        Template tmpl = cfg.getTemplate("messages.html");
+//        Writer out = resp.getWriter();
+//        try {
+//            tmpl.process(map, out);
+//        } catch (TemplateException e1) {
+//            e1.printStackTrace();
+//        }
+        Template tmpl = cfg.getTemplate("messages.html");
         Writer out = resp.getWriter();
-        try {
-            tmpl.process(map, out);
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        out.write(tmpl.toString());
     }
 	
 	@Override
@@ -65,7 +67,7 @@ public class LikedServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Template tmpl = cfg.getTemplate("liked.html");
+        Template tmpl = cfg.getTemplate("messages.html");
         resp.getWriter().write(tmpl.toString());
 	}
 }
