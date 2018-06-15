@@ -20,21 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
-    private final UsersDAO users = new UsersDAO();
+    private final UsersDAO users;
     private static int counter = 0;
 
-    public UsersServlet() {
-        users.add(new UserDemo("Mrs.Hudson",
-                "https://pbs.twimg.com/profile_images/1783390898/twitter_av_400x400.png"));
-        users.add(new UserDemo("Your Ex",
-                "https://i.pinimg.com/originals/b0/d2/e6/b0d2e6d8d83931bf586f83d4ed189c0a.jpg"));
-        users.add(new UserDemo("Stifler's Mom",
-                "https://pbs.twimg.com/profile_images/989211028692127744/tWR4WHNC_400x400.jpg"));
-        users.add(new UserDemo("Original Ba XX",
-                "http://i57.beon.ru/53/81/228153/4/11191004/33.jpeg"));
-        users.add(new UserDemo("Not First Woman In Space",
-                "https://airandspace.si.edu/sites/default/files/styles" +
-                        "/callout_half/public/images/news/7462h.jpg?itok=S6nexORm"));
+    public UsersServlet(UsersDAO userDAO) {
+        this.users = userDAO;
     }
 
 
