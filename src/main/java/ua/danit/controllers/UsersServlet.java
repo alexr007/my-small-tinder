@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
     private final List<UserDemo> users = new ArrayList<>();
+    private static int counter = 0;
 
     public UsersServlet() {
         users.add(new UserDemo("Mrs.Hudson",
@@ -74,18 +75,19 @@ public class UsersServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        int numOfNextUser = 0;
         for (UserDemo user : users) {
-            if(user.getName().equals(prevLogin)){
-                if(users.indexOf(user) < users.size()-1) {
-                    numOfNextUser = users.indexOf(user) + 1;
+            if(user.getName().equals(prevLogin)) {
+                if (users.indexOf(user) < users.size() - 1) {
+                    counter = users.indexOf(user) + 1;
+                } else {
+                    counter = 0;
                 }
             }
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(numOfNextUser).getName());
-        map.put("imgURL", users.get(numOfNextUser).getInhURL());
+        map.put("name", users.get(counter).getName());
+        map.put("imgURL", users.get(counter).getInhURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();
