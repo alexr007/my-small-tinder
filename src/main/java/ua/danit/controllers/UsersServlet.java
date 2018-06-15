@@ -37,7 +37,9 @@ public class UsersServlet extends HttpServlet {
 
 
     @Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
         cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
@@ -47,8 +49,8 @@ public class UsersServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(0).getName());
-        map.put("imgURL", users.get(0).getInhURL());
+        map.put("name", users.get(2).getName());
+        map.put("imgURL", users.get(2).getInhURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();
@@ -60,7 +62,37 @@ public class UsersServlet extends HttpServlet {
     }
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("<h1 align=\"center\">Not now</h1>");
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String prevLogin = req.getParameter("liked");
+
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
+        String appDir = System.getProperty("user.dir");
+        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        cfg.setLogTemplateExceptions(false);
+        cfg.setWrapUncheckedExceptions(true);
+
+        int numOfNextUser = 0;
+        for (UserDemo user : users) {
+            if(user.getName().equals(prevLogin)){
+                if(users.indexOf(user) < users.size()-1) {
+                    numOfNextUser = users.indexOf(user) + 1;
+                }
+            }
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("name", users.get(numOfNextUser).getName());
+        map.put("imgURL", users.get(numOfNextUser).getInhURL());
+
+        Template tmpl = cfg.getTemplate("users.html");
+        Writer out = resp.getWriter();
+        try {
+            tmpl.process(map, out);
+        } catch (TemplateException e1) {
+            e1.printStackTrace();
+        }
 	}
 }
