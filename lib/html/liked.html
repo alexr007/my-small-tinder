@@ -6,10 +6,14 @@
 </head>
 <body align="center">
 <h1>LIKED USERS</h1>
-<form action="/liked" method="post">
+<form action="/message">
     <table border=1 align="center">
        <p><#list liked as i>
-        <tr><td>${i.name}</td><td><img src="${i.imgURL}"></td><td><input type="submit" value="CHAT"></td></tr>
+        <tr>
+            <td><img src="${i.imgURL}" width="20%"></td>
+            <td>${i.name}</td>
+            <td><input type="submit" value="CHAT"></td>
+        </tr>
     </#list>
     </table>
 </form>
