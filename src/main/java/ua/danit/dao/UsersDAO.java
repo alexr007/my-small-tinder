@@ -9,15 +9,15 @@ public class UsersDAO extends ArrayList<UserDemo> {
 
     public UsersDAO() {
         add(new UserDemo("Mrs.Hudson",
-                "https://pbs.twimg.com/profile_images/1783390898/twitter_av_400x400.png"));
+                "https://vignette.wikia.nocookie.net/heroes-v-villains/images" +
+                        "/f/fb/221BLandlady.jpg/revision/latest?cb=20180205030835"));
         add(new UserDemo("Your Ex",
-                "https://i.pinimg.com/originals/b0/d2/e6/b0d2e6d8d83931bf586f83d4ed189c0a.jpg"));
+                "https://www.tuinverbeelding.nl/wp-content/uploads/2014/04/LW01LM.jpg"));
         add(new UserDemo("Stifler's Mom",
-                "https://pbs.twimg.com/profile_images/989211028692127744/tWR4WHNC_400x400.jpg"));
+                "https://pbs.twimg.com/profile_images/2282058605/image.jpg"));
         add(new UserDemo("Original Ba XX",
-                "http://i57.beon.ru/53/81/228153/4/11191004/33.jpeg"));
+                "https://pp.userapi.com/c424519/v424519551/3a16/sVFACC5H_68.jpg"));
         add(new UserDemo("Not First Woman In Space",
-                "https://airandspace.si.edu/sites/default/files/styles" +
-                        "/callout_half/public/images/news/7462h.jpg?itok=S6nexORm"));
+                "http://www.unvienna.org/sdgs/img/UNOOSA/Female-astronaut-training---NASA_1-1.jpg"));
     }
 }
