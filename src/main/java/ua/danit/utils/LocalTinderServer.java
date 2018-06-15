@@ -1,5 +1,6 @@
 package ua.danit.utils;
 
+import ua.danit.controllers.LikedServlet;
 import ua.danit.controllers.UsersServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -13,8 +14,9 @@ public class LocalTinderServer {
 		//using anonymous class for not initialise any variables
 		new Server(8080){{
 			setHandler(new ServletContextHandler(){{
-				//create endpoint for servlet without any variables
+				//create endpoints for servlets without any variables
 				addServlet(new ServletHolder(new UsersServlet(userDAO)), "/users/*");
+				addServlet(new ServletHolder(new LikedServlet(userDAO)), "/liked/*");
 			}});
 			start();
 			join();

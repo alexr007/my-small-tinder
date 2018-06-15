@@ -13,12 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LikedServlet extends HttpServlet {
     private final UsersDAO users;
-    private static int counter = 0;
 
     public LikedServlet(UsersDAO userDAO) {
         this.users = userDAO;
@@ -37,7 +34,7 @@ public class LikedServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Map<String, String> map = new HashMap<>();
+        /*Map<String, String> map = new HashMap<>();
         map.put("name", users.get(2).getName());
         map.put("imgURL", users.get(2).getInhURL());
 
@@ -47,7 +44,9 @@ public class LikedServlet extends HttpServlet {
             tmpl.process(map, out);
         } catch (TemplateException e1) {
             e1.printStackTrace();
-        }
+        }*/
+        Template tmpl = cfg.getTemplate("liked.html");
+        resp.getWriter().write(tmpl.toString());
     }
 	
 	@Override
@@ -63,21 +62,7 @@ public class LikedServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        if(counter == users.size()){
-            counter = 0;
-        }
-
-        Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(counter).getName());
-        map.put("imgURL", users.get(counter).getInhURL());
-
-        Template tmpl = cfg.getTemplate("users.html");
-        Writer out = resp.getWriter();
-        try {
-            tmpl.process(map, out);
-            counter++;
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        Template tmpl = cfg.getTemplate("liked.html");
+        resp.getWriter().write(tmpl.toString());
 	}
 }

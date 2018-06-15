@@ -5,7 +5,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.UserDemo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
@@ -56,7 +53,6 @@ public class UsersServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String prevLogin = req.getParameter("liked");
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
@@ -68,6 +64,7 @@ public class UsersServlet extends HttpServlet {
 
         if(counter == users.size()){
             counter = 0;
+            resp.sendRedirect("/liked");
         }
 
         Map<String, String> map = new HashMap<>();
