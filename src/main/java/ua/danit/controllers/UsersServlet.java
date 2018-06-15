@@ -4,7 +4,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
+import ua.danit.model.UserDemo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +20,12 @@ import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
     private final UsersDAO users;
+    private final LikedDAO likedDAO;
     private static int counter = 0;
 
-    public UsersServlet(UsersDAO userDAO) {
+    public UsersServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO;
+        this.likedDAO = likedDAO;
     }
 
 
@@ -38,8 +42,8 @@ public class UsersServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(2).getName());
-        map.put("imgURL", users.get(2).getInhURL());
+        map.put("name", users.get(counter).getName());
+        map.put("imgURL", users.get(counter).getImgURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();
@@ -53,6 +57,16 @@ public class UsersServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        String liked = req.getParameter("liked");
+
+        if(liked!=null){
+            for (UserDemo user : users) {
+                if(user.getName().equals(liked) && !likedDAO.contains(user)){
+                    likedDAO.add(user);
+                    break;
+                }
+            }
+        }
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
@@ -63,13 +77,13 @@ public class UsersServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         if(counter == users.size()){
-            counter = 0;
             resp.sendRedirect("/liked");
+            counter = 0;
         }
 
         Map<String, String> map = new HashMap<>();
         map.put("name", users.get(counter).getName());
-        map.put("imgURL", users.get(counter).getInhURL());
+        map.put("imgURL", users.get(counter).getImgURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();

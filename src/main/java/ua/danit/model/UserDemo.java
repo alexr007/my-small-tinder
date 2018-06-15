@@ -2,7 +2,7 @@ package ua.danit.model;
 
 public class UserDemo {
     String name;
-    String inhURL;
+    String imgURL;
 
     public String getName() {
         return name;
@@ -12,16 +12,16 @@ public class UserDemo {
         this.name = name;
     }
 
-    public String getInhURL() {
-        return inhURL;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setInhURL(String inhURL) {
-        this.inhURL = inhURL;
+    public void setImgURL(String inhURL) {
+        this.imgURL = inhURL;
     }
 
-    public UserDemo(String name, String inhURL) {
+    public UserDemo(String name, String imgURL) {
         this.name = name;
-        this.inhURL = inhURL;
+        this.imgURL = imgURL;
     }
 }

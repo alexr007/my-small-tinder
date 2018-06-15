@@ -7,30 +7,10 @@
 <body align="center">
 <h1>LIKED USERS</h1>
 <form action="/liked" method="post">
-    <table align="center" style="padding : 2px; border : 2px solid black">
-        <tr>
-            <td style="padding : 2px; border : 2px solid black">
-                <img src="https://vignette.wikia.nocookie.net/heroes-v-villains/images/f/fb/221BLandlady.jpg/revision/latest?cb=20180205030835">
-            </td>
-            <td style="padding : 2px; border : 2px solid black">
-                <h4>Mrs.Hudson</h4>
-            </td>
-            <td style="padding : 2px; border : 2px solid black">
-                <input type="submit" value="CHAT">
-            </td>
-        </tr>
-
-        <tr>
-            <td style="padding : 2px; border : 2px solid black">
-                <img src="https://pbs.twimg.com/profile_images/2282058605/image.jpg">
-            </td>
-            <td style="padding : 2px; border : 2px solid black">
-                <h4>Stifler's Mom</h4>
-            </td>
-            <td style="padding : 2px; border : 2px solid black">
-                <input type="submit" value="CHAT">
-            </td>
-        </tr>
+    <table border=1 align="center">
+       <p><#list liked as i>
+        <tr><td>${i.name}</td><td><img src="${i.imgURL}"></td><td><input type="submit" value="CHAT"></td></tr>
+    </#list>
     </table>
 </form>
 </body>
