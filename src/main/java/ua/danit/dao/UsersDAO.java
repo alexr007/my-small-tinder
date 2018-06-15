@@ -2,6 +2,7 @@ package ua.danit.dao;
 
 
 import ua.danit.model.UserDemo;
+import ua.danit.utils.GeneratorID;
 
 import java.util.ArrayList;
 
