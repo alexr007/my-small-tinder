@@ -75,14 +75,8 @@ public class UsersServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        for (UserDemo user : users) {
-            if(user.getName().equals(prevLogin)) {
-                if (users.indexOf(user) < users.size() - 1) {
-                    counter = users.indexOf(user) + 1;
-                } else {
-                    counter = 0;
-                }
-            }
+        if(counter == users.size()){
+            counter = 0;
         }
 
         Map<String, String> map = new HashMap<>();
@@ -93,6 +87,7 @@ public class UsersServlet extends HttpServlet {
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
+            counter++;
         } catch (TemplateException e1) {
             e1.printStackTrace();
         }
