@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import ua.danit.dao.UsersDAO;
 import ua.danit.model.UserDemo;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
-    private final List<UserDemo> users = new ArrayList<>();
+    private final UsersDAO users = new UsersDAO();
     private static int counter = 0;
 
     public UsersServlet() {
