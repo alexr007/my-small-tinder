@@ -13,14 +13,13 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
 
     @Override
     public void save(Yamnyk_liked like) {
-        String sql = "INSERT INTO yamnyk_liked(like_id, who, whom, time) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO yamnyk_liked(who, whom, time) VALUES(?,?,?)";
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
 
-            statement.setLong(1, like.getLike_id());
-            statement.setLong(2, like.getWho());
-            statement.setLong(3, like.getWhom());
-            statement.setTimestamp(4, like.getTime());
+            statement.setLong(1, like.getWho());
+            statement.setLong(2, like.getWhom());
+            statement.setTimestamp(3, like.getTime());
 
             statement.executeUpdate();
 
