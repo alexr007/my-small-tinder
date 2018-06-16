@@ -11,18 +11,18 @@
     <p><#list liked as i>
         <tr>
             <form action="/messages/${i.whom}">
-                <#list users as u>
-                <#if u.id = i.whom>
+                <#list users as usr>
+                <#if usr.id = i.whom>
                     <td>
-                    ${u.name}
+                    ${usr.name}
                     </td>
                     <td>
-                    <img src="${u.imgURL}">
+                    <img src="${usr.imgURL}">
                     </td>
-                </#if>
-                </#list>
                 <td>${i.time}</td>
                 <td><input type="submit" value="CHAT"></td>
+            </#if>
+        </#list>
             </form>
         </tr>
     </#list>

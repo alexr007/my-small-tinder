@@ -56,6 +56,7 @@ public class UsersServlet extends HttpServlet {
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
+            counter++;
         } catch (TemplateException e1) {
             e1.printStackTrace();
         }
