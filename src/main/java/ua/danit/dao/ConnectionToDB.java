@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionToDB {
     //amazon base
-    private static final String DB_URL = "danit.cukm9c6zpjo8.us-west-2.rds.amazonaws.com";
+    private static final String DB_URL = "jdbc:mysql://danit.cukm9c6zpjo8.us-west-2.rds.amazonaws.com:3306/fs5";
     private static final String USERNAME = "fs5_user";
     private static final String USER_PASS = "bArceloNa";
 

@@ -6,7 +6,6 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.UserDemo;
 import ua.danit.model.Yamnyk_users;
 
 import javax.servlet.ServletException;
@@ -16,12 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
-    private final List<Yamnyk_users> users;
+    private final ArrayList<Yamnyk_users> users;
     private final LikedDAO likedDAO;
     private static int counter = 0;
 

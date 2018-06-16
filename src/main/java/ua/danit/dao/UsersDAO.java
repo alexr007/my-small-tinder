@@ -69,8 +69,8 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
         return null;
     }
 
-    public List<Yamnyk_users> getAll() {
-        List<Yamnyk_users> users = new ArrayList<>();
+    public ArrayList<Yamnyk_users> getAll() {
+        ArrayList<Yamnyk_users> users = new ArrayList<>();
         Yamnyk_users user = new Yamnyk_users();
 
         String sql = "SELECT * FROM yamnyk_users";
