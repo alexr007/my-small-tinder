@@ -6,7 +6,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.UserDemo;
+import ua.danit.model.Yamnyk_liked;
+import ua.danit.model.Yamnyk_users;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,15 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LikedServlet extends HttpServlet {
-    private final UsersDAO users;
-    private final LikedDAO likedDAO;
+    private final ArrayList<Yamnyk_users> users;
+    private final ArrayList<Yamnyk_liked> likedDAO;
 
     public LikedServlet(UsersDAO userDAO, LikedDAO likedDAO) {
-        this.users = userDAO;
+        this.users = userDAO.getAll();
+        //TODO: WARNING deal with getting id of logined
+        //TODO: user for write it into the table to "who"
         this.likedDAO = likedDAO;
     }
 

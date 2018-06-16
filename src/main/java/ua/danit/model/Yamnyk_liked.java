@@ -4,6 +4,7 @@ public class Yamnyk_liked {
   private Long like_id;
   private Long who;
   private Long whom;
+  private java.sql.Timestamp time;
 
   public Long getLike_id() {
     return like_id;
@@ -27,5 +28,13 @@ public class Yamnyk_liked {
 
   public void setWhom(Long whom) {
     this.whom = whom;
+  }
+
+  public java.sql.Timestamp getTime() {
+    return time;
+  }
+
+  public void setTime(java.sql.Timestamp time) {
+    this.time = time;
   }
 }

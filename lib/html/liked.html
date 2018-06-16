@@ -10,7 +10,7 @@
 <table border=1 align="center">
     <p><#list liked as i>
         <tr>
-            <form action="/messages/id=${i.id}">
+            <form action="/messages/${i.id}">
                 <td><img src="${i.imgURL}" width="20%"></td>
                 <td>${i.name}</td>
                 <td><input type="submit" value="CHAT"></td>

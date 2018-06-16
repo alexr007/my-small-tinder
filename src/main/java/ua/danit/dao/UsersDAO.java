@@ -71,7 +71,6 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
 
     public ArrayList<Yamnyk_users> getAll() {
         ArrayList<Yamnyk_users> users = new ArrayList<>();
-        Yamnyk_users user = new Yamnyk_users();
 
         String sql = "SELECT * FROM yamnyk_users";
         try(Connection connection = new ConnectionToDB().getConnection();
@@ -79,6 +78,7 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
             ResultSet rSet = statement.executeQuery()){
 
             while(rSet.next()) {
+                Yamnyk_users user = new Yamnyk_users();
                 user.setId(rSet.getLong("id"));
                 user.setName(rSet.getString("name"));
                 user.setImgURL(rSet.getString("imgURL"));
