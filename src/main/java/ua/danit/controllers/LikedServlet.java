@@ -26,9 +26,7 @@ public class LikedServlet extends HttpServlet {
 
     public LikedServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO.getAll();
-        //TODO: WARNING deal with getting id of logined
-        //TODO: user for write it into the table to "who"
-        this.likedDAO = likedDAO;
+        this.likedDAO = likedDAO.getLiked();
     }
 
 
@@ -44,8 +42,9 @@ public class LikedServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Map<String, LikedDAO> map = new HashMap<>();
+        Map<String, ArrayList> map = new HashMap<>();
         map.put("liked", likedDAO);
+        map.put("users", users);
 
         Template tmpl = cfg.getTemplate("liked.html");
         Writer out = resp.getWriter();

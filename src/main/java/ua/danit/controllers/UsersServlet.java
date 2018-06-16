@@ -6,7 +6,9 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
+import ua.danit.model.Yamnyk_liked;
 import ua.danit.model.Yamnyk_users;
+import ua.danit.utils.GeneratorID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +32,7 @@ public class UsersServlet extends HttpServlet {
 
     public UsersServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO.getAll();
-        this.likedDAO = likedDAO;
+        this.likedDAO = likedDAO    ;
     }
 
 
@@ -62,9 +68,24 @@ public class UsersServlet extends HttpServlet {
 
         if(liked!=null){
             for (Yamnyk_users user : users) {
-                if(user.getName().equals(liked) && !likedDAO.contains(user)){
-                    likedDAO.add(user);
-                    break;
+                if(user.getName().equals(liked)){
+                    if (likedDAO.hasBeenLiked(user.getId())) {
+                        Yamnyk_liked likedToDB = new Yamnyk_liked();
+                        likedToDB.setTime(Timestamp.from(new Date().toInstant()));
+                        likedToDB.setWhom(user.getId());
+                        likedToDB.setWho((long) 123);
+                        likedToDB.setLike_id(Long.valueOf(GeneratorID.generateNewID()));
+                        likedDAO.update(likedToDB);
+                        break;
+                    } else {
+                        Yamnyk_liked likedToDB = new Yamnyk_liked();
+                        likedToDB.setTime(Timestamp.from(new Date().toInstant()));
+                        likedToDB.setWhom(user.getId());
+                        likedToDB.setWho((long) 123);
+                        likedToDB.setLike_id(Long.valueOf(GeneratorID.generateNewID()));
+                        likedDAO.save(likedToDB);
+                        break;
+                    }
                 }
             }
         }

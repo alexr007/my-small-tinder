@@ -31,14 +31,13 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
 
     @Override
     public void update(Yamnyk_liked like) {
-        String sql = "UPDATE yamnyk_liked SET who=?, whom=?, time=? WHERE id=?";
+        String sql = "UPDATE yamnyk_liked SET time=? WHERE whom=?";
 
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
 
-            statement.setLong(1, like.getWho());
+            statement.setTimestamp(1, like.getTime());
             statement.setLong(2, like.getWhom());
-            statement.setTimestamp(3, like.getTime());
 
             statement.executeUpdate();
 
@@ -49,19 +48,27 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
 
     @Override
     public Yamnyk_liked get(Long id) {
-        Yamnyk_liked like = new Yamnyk_liked();
+        return null;
+    }
 
-        String sql = "SELECT * FROM yamnyk_liked WHERE id='"+id+"'";
+    public ArrayList<Yamnyk_liked> getLiked(){
+        ArrayList<Yamnyk_liked> liked = new ArrayList<>();
+        String sql = "SELECT * FROM yamnyk_liked";
+
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rSet = statement.executeQuery()){
 
-            like.setLike_id(rSet.getLong("like_ia"));
-            like.setWho(rSet.getLong("who"));
-            like.setWhom(rSet.getLong("whom"));
-            like.setTime(rSet.getTimestamp("time"));
+            while(rSet.next()) {
+                Yamnyk_liked like = new Yamnyk_liked();
+                like.setLike_id(rSet.getLong("like_id"));
+                like.setWho(rSet.getLong("who"));
+                like.setWhom(rSet.getLong("whom"));
+                like.setTime(rSet.getTimestamp("time"));
 
-            return like;
+                liked.add(like);
+            }
+            return liked;
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -83,5 +90,15 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public boolean hasBeenLiked(Long whom) {
+        boolean answ = false;
+        for(Yamnyk_liked liked :getLiked()){
+            if(liked.getWhom().equals(whom)){
+                answ = true;
+            }
+        }
+        return answ;
     }
 }

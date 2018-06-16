@@ -10,9 +10,18 @@
 <table border=1 align="center">
     <p><#list liked as i>
         <tr>
-            <form action="/messages/${i.id}">
-                <td><img src="${i.imgURL}" width="20%"></td>
-                <td>${i.name}</td>
+            <form action="/messages/${i.whom}">
+                <#list users as u>
+                <#if u.id = i.whom>
+                    <td>
+                    ${u.name}
+                    </td>
+                    <td>
+                    <img src="${u.imgURL}">
+                    </td>
+                </#if>
+                </#list>
+                <td>${i.time}</td>
                 <td><input type="submit" value="CHAT"></td>
             </form>
         </tr>
