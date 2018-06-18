@@ -93,7 +93,7 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
 
     public boolean hasBeenLiked(Long whom) {
         boolean answ = false;
-        for(Yamnyk_liked liked :getLiked()){
+        for(Yamnyk_liked liked : getLiked()){
             if(liked.getWhom().equals(whom)){
                 answ = true;
             }

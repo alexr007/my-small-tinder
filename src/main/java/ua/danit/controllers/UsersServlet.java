@@ -69,32 +69,20 @@ public class UsersServlet extends HttpServlet {
         String liked = req.getParameter("liked");
 
         if(liked!=null){
-            /**
-             * TODO: HERE IS THE FUCKING PROBLEM
-             * this thing or not saving any like,
-             * or save it in both blocks
-             * as result in DB exist two same likes or not exist any
-             *
-             * ...its so sad...I've been writing this shit all day...
-             * its almost 2 am...need to get up at 6 am...have no words to say...
-             */
-            for(Yamnyk_liked likedUSR : likedDAO.getLiked()){
-                if(liked.equals(likedUSR.getWhom())){
-                    Yamnyk_liked lkd = new Yamnyk_liked();
-                    lkd.setLike_id(likedUSR.getLike_id());
-                    lkd.setWho((long) 123);
-                    lkd.setWhom(Long.valueOf(liked));
-                    lkd.setTime(new Timestamp(System.currentTimeMillis()));
-                    likedDAO.update(lkd);
-                    break;
-                } else if(likedDAO.getLiked().indexOf(likedUSR) == likedDAO.getLiked().size()
-                        && !liked.equals(likedUSR.getWhom())){
-                    Yamnyk_liked lkd = new Yamnyk_liked();
-                    lkd.setWho((long) 123);
-                    lkd.setWhom(Long.valueOf(liked));
-                    lkd.setTime(new Timestamp(System.currentTimeMillis()));
-                    likedDAO.save(lkd);
-                }
+            if(likedDAO.hasBeenLiked(Long.valueOf(liked))){
+                Yamnyk_liked lkd = new Yamnyk_liked();
+                lkd.setLike_id(Long.valueOf(liked));
+                lkd.setWho((long) 123);
+                lkd.setWhom(Long.valueOf(liked));
+                lkd.setTime(new Timestamp(System.currentTimeMillis()));
+                likedDAO.update(lkd);
+            } else {
+                Yamnyk_liked lkd = new Yamnyk_liked();
+                lkd.setLike_id(Long.valueOf(liked));
+                lkd.setWho((long) 123);
+                lkd.setWhom(Long.valueOf(liked));
+                lkd.setTime(new Timestamp(System.currentTimeMillis()));
+                likedDAO.save(lkd);
             }
         }
 

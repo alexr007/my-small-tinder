@@ -22,11 +22,11 @@ import java.util.Map;
 
 public class LikedServlet extends HttpServlet {
     private final ArrayList<Yamnyk_users> users;
-    private final ArrayList<Yamnyk_liked> likedDAO;
+    private final LikedDAO likedDAO;
 
     public LikedServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO.getAll();
-        this.likedDAO = likedDAO.getLiked();
+        this.likedDAO = likedDAO;
     }
 
 
@@ -43,7 +43,7 @@ public class LikedServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         Map<String, ArrayList> map = new HashMap<>();
-        map.put("liked", likedDAO);
+        map.put("liked", likedDAO.getLiked());
         map.put("users", users);
 
         Template tmpl = cfg.getTemplate("liked.html");
