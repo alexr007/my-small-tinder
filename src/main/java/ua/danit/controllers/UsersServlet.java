@@ -26,12 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UsersServlet extends HttpServlet {
-    private final ArrayList<Yamnyk_users> users;
+    private final UsersDAO users;
     private final LikedDAO likedDAO;
     private static int counter = 0;
 
     public UsersServlet(UsersDAO userDAO, LikedDAO likedDAO) {
-        this.users = userDAO.getAll();
+        this.users = userDAO;
         this.likedDAO = likedDAO    ;
     }
 
@@ -49,9 +49,12 @@ public class UsersServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(counter).getName());
-        map.put("id", users.get(counter).getId().toString() );
-        map.put("imgURL", users.get(counter).getImgURL());
+        while(likedDAO.hasBeenLiked(users.getAll().get(counter).getId())){
+            counter++;
+        }
+        map.put("name", users.getAll().get(counter).getName());
+        map.put("id", users.getAll().get(counter).getId().toString() );
+        map.put("imgURL", users.getAll().get(counter).getImgURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();
@@ -94,15 +97,20 @@ public class UsersServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        if(counter == users.size()){
+        if(counter == users.getAll().size()){
             resp.sendRedirect("/liked");
             counter = 0;
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("name", users.get(counter).getName());
-        map.put("id", users.get(counter).getId().toString());
-        map.put("imgURL", users.get(counter).getImgURL());
+
+        while(likedDAO.hasBeenLiked(users.getAll().get(counter).getId())){
+            counter++;
+        }
+
+        map.put("name", users.getAll().get(counter).getName());
+        map.put("id", users.getAll().get(counter).getId().toString());
+        map.put("imgURL", users.getAll().get(counter).getImgURL());
 
         Template tmpl = cfg.getTemplate("users.html");
         Writer out = resp.getWriter();
