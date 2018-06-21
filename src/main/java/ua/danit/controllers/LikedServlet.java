@@ -36,7 +36,7 @@ public class LikedServlet extends HttpServlet {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
         cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "src/main/resources/static/"));
+                + "/src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
@@ -63,7 +63,7 @@ public class LikedServlet extends HttpServlet {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
         cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "src/main/resources/static/"));
+                + "/src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);

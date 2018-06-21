@@ -13,10 +13,8 @@
     <link href="/assets/src/main/resources/static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="/assets/src/main/resources/staticcss/style.css">
+    <link rel="stylesheet" href="/assets/src/main/resources/static/css/style.css">
 </head>
-<body>
-
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
@@ -27,76 +25,27 @@
                 <div class="panel-body">
                     <div class="table-container">
                         <table class="table-users table" border="0">
+                            <#list liked as i>
+                            <#list users as usr>
+                            <#if usr.id = i.whom>
                             <tbody>
-                                <tr>
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                        </div>
-
-                                    </td>
-                                    <td class="align-middle">
-                                        Herbert Hoover
-                                    </td>
-                                    <td class="align-middle">
-                                        Builder Sales Agent
-                                    </td>
-                                    <td  class="align-middle">
-                                        Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                        </div>
-
-                                    </td>
-                                    <td class="align-middle">
-                                        Herbert Hoover
-                                    </td>
-                                    <td class="align-middle">
-                                        Builder Sales Agent
-                                    </td>
-                                    <td  class="align-middle">
-                                        Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                        </div>
-
-                                    </td>
-                                    <td class="align-middle">
-                                        Herbert Hoover
-                                    </td>
-                                    <td class="align-middle">
-                                        Builder Sales Agent
-                                    </td>
-                                    <td  class="align-middle">
-                                        Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10">
-                                        <div class="avatar-img">
-                                            <img class="img-circle" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxhcCYW4QDWMOjOuUTxOd50KcJvK-rop9qE9zRltSbVS_bO-cfWA" />  
-                                        </div>
-
-                                    </td>
-                                    <td class="align-middle">
-                                        Herbert Hoover
-                                    </td>
-                                    <td class="align-middle">
-                                        Builder Sales Agent
-                                    </td>
-                                    <td  class="align-middle">
-                                        Last Login:  6/10/2017<br><small class="text-muted">5 days ago</small>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td width="10">
+                                    <div class="avatar-img">
+                                        <form action="/messages/${i.whom}" method="post">
+                                            <button class="click-button" type="submit" name="goToChat">
+                                                <img class="img-circle" src="${usr.imgURL}">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                <td class="align-middle">${usr.name}</td>
+                            </tr>
                             </tbody>
+                            </#if>
+                            </#list>
+                            </#list>
                         </table>
                     </div>
                 </div>
