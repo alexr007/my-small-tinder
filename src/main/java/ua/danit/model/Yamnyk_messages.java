@@ -1,7 +1,7 @@
 package ua.danit.model;
 
 
-public class YamnykMessages {
+public class Yamnyk_messages {
 
   private long messageId;
   private long sender;

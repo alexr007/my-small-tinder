@@ -5,7 +5,20 @@
     <title>Chat</title>
 </head>
 <body align="center">
-<h1>Is has to be the chat out there</h1>
-<h2>...but I don't know how to write it yet...</h2>
+<form src="/messages/${user.id}">
+    <h1>Your messages with ${user.name}</h1>
+        <#list sanded as msg>
+            <#if msg.recipient = user.id>
+                <output>${msg.text}</output>
+            </#if>
+        </#list>
+<br>
+        <#list received as msg>
+                <output>${msg.text}</output>
+        </#list>
+    <br>
+    <input type="text" placeholder="Input your message">
+    <input type="submit" value="SEND">
+</form>
 </body>
 </html>

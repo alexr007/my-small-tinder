@@ -12,17 +12,17 @@
         <tr>
             <form action="/messages/${i.whom}">
                 <#list users as usr>
-                <#if usr.id = i.whom>
-                    <td>
-                    ${usr.name}
-                    </td>
-                    <td>
-                    <img src="${usr.imgURL}">
-                    </td>
-                <td>${i.time}</td>
-                <td><input type="submit" value="CHAT"></td>
-            </#if>
-        </#list>
+                    <#if usr.id = i.whom>
+                        <td>
+                        ${usr.name}
+                        </td>
+                        <td>
+                        <img src="${usr.imgURL}">
+                        </td>
+                        <td>${i.time}</td>
+                        <td><input type="submit" value="CHAT"></td>
+                    </#if>
+                </#list>
             </form>
         </tr>
     </#list>

@@ -1,11 +1,14 @@
 package ua.danit.controllers;
 
+import com.sun.org.apache.regexp.internal.RE;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
+import ua.danit.dao.MessagesDAO;
 import ua.danit.dao.UsersDAO;
+import ua.danit.model.Yamnyk_users;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,19 +42,24 @@ public class MessagesServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-//        Map<String, LikedDAO> map = new HashMap<>();
-//        map.put("liked", likedDAO);
-//
-//        Template tmpl = cfg.getTemplate("messages.html");
-//        Writer out = resp.getWriter();
-//        try {
-//            tmpl.process(map, out);
-//        } catch (TemplateException e1) {
-//            e1.printStackTrace();
-//        }
+        Map<String, Object> map = new HashMap<>();
+        String[] uriParam = req.getRequestURI().split("/");
+        Long userID = Long.valueOf(uriParam[uriParam.length -1]);
+        Yamnyk_users user = users.get(userID);
+        map.put("user", user);
+        map.put("sanded", new MessagesDAO().getByRecipient(userID));
+        map.put("received", new MessagesDAO().getByRecipient((long)123));
+
         Template tmpl = cfg.getTemplate("messages.html");
         Writer out = resp.getWriter();
-        out.write(tmpl.toString());
+        try {
+            tmpl.process(map, out);
+        } catch (TemplateException e1) {
+            e1.printStackTrace();
+        }
+//        Template tmpl = cfg.getTemplate("messages.html");
+//        Writer out = resp.getWriter();
+//        out.write(tmpl.toString());
     }
 	
 	@Override

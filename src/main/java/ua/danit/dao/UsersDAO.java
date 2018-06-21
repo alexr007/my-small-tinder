@@ -50,18 +50,20 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
 
     @Override
     public Yamnyk_users get(Long pk) {
-        Yamnyk_users user = new Yamnyk_users();
 
         String sql = "SELECT * FROM yamnyk_users WHERE id='"+pk+"'";
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rSet = statement.executeQuery()){
 
-            user.setId(rSet.getLong("id"));
-            user.setName(rSet.getString("name"));
-            user.setImgURL(rSet.getString("imgURL"));
+            while(rSet.next()) {
+                Yamnyk_users user = new Yamnyk_users();
+                user.setId(rSet.getLong("id"));
+                user.setName(rSet.getString("name"));
+                user.setImgURL(rSet.getString("imgURL"));
 
-            return user;
+                return user;
+            }
 
         } catch (SQLException e){
             e.printStackTrace();
