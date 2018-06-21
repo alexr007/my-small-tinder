@@ -2,6 +2,7 @@ package ua.danit.utils;
 
 import ua.danit.controllers.LikedServlet;
 import ua.danit.controllers.MessagesServlet;
+import ua.danit.controllers.StylesServlet;
 import ua.danit.controllers.UsersServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -18,9 +19,13 @@ public class LocalTinderServer {
 		new Server(8080){{
 			setHandler(new ServletContextHandler(){{
 				//create endpoints for servlets without any variables
-				addServlet(new ServletHolder(new UsersServlet(userDAO, likedDAO)), "/users/*");
-				addServlet(new ServletHolder(new LikedServlet(userDAO, likedDAO)), "/liked/*");
-				addServlet(new ServletHolder(new MessagesServlet(userDAO, likedDAO)), "/messages/*");
+				addServlet(new ServletHolder(new UsersServlet(userDAO, likedDAO)),
+						"/users/*");
+				addServlet(new ServletHolder(new LikedServlet(userDAO, likedDAO)),
+						"/liked/*");
+				addServlet(new ServletHolder(new MessagesServlet(userDAO, likedDAO)),
+						"/messages/*");
+				addServlet(new ServletHolder(new StylesServlet()), "/assets");
 			}});
 			start();
 			join();
