@@ -7,8 +7,6 @@ import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_liked;
-import ua.danit.model.Yamnyk_users;
-import ua.danit.utils.GeneratorID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +26,7 @@ public class UsersServlet extends HttpServlet {
 
     public UsersServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO;
-        this.likedDAO = likedDAO    ;
+        this.likedDAO = likedDAO;
     }
 
 
@@ -43,7 +37,7 @@ public class UsersServlet extends HttpServlet {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
         cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "src/main/resources/static/like-page.html"));
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
@@ -57,7 +51,7 @@ public class UsersServlet extends HttpServlet {
         map.put("id", users.getAll().get(counter).getId().toString() );
         map.put("imgURL", users.getAll().get(counter).getImgURL());
 
-        Template tmpl = cfg.getTemplate("users.html");
+        Template tmpl = cfg.getTemplate("like-page.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -92,7 +86,8 @@ public class UsersServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
@@ -113,7 +108,7 @@ public class UsersServlet extends HttpServlet {
         map.put("id", users.getAll().get(counter).getId().toString());
         map.put("imgURL", users.getAll().get(counter).getImgURL());
 
-        Template tmpl = cfg.getTemplate("users.html");
+        Template tmpl = cfg.getTemplate("like-page.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);

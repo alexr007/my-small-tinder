@@ -35,7 +35,8 @@ public class LikedServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
@@ -45,7 +46,7 @@ public class LikedServlet extends HttpServlet {
         map.put("liked", likedDAO.getLiked());
         map.put("users", users);
 
-        Template tmpl = cfg.getTemplate("liked.html");
+        Template tmpl = cfg.getTemplate("people-list.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -61,13 +62,14 @@ public class LikedServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Template tmpl = cfg.getTemplate("liked.html");
+        Template tmpl = cfg.getTemplate("people-list.html");
         resp.getWriter().write(tmpl.toString());
 	}
 }

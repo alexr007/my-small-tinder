@@ -1,6 +1,5 @@
 package ua.danit.controllers;
 
-import com.sun.org.apache.regexp.internal.RE;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -36,7 +35,8 @@ public class MessagesServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
@@ -50,7 +50,7 @@ public class MessagesServlet extends HttpServlet {
         map.put("sanded", new MessagesDAO().getByRecipient(userID));
         map.put("received", new MessagesDAO().getByRecipient((long)123));
 
-        Template tmpl = cfg.getTemplate("messages.html");
+        Template tmpl = cfg.getTemplate("chat.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -69,13 +69,14 @@ public class MessagesServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
-        Template tmpl = cfg.getTemplate("messages.html");
+        Template tmpl = cfg.getTemplate("chat.html");
         resp.getWriter().write(tmpl.toString());
 	}
 }

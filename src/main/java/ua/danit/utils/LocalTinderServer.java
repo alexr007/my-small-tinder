@@ -1,12 +1,12 @@
 package ua.danit.utils;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import ua.danit.controllers.LikedServlet;
 import ua.danit.controllers.MessagesServlet;
 import ua.danit.controllers.StylesServlet;
 import ua.danit.controllers.UsersServlet;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 
