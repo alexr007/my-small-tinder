@@ -6,7 +6,6 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.Yamnyk_liked;
 import ua.danit.model.Yamnyk_users;
 
 import javax.servlet.ServletException;
