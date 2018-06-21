@@ -42,7 +42,8 @@ public class UsersServlet extends HttpServlet {
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir + "/lib/html"));
+        cfg.setDirectoryForTemplateLoading(new File(appDir
+                + "src/main/resources/static/like-page.html"));
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);

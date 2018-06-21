@@ -25,7 +25,7 @@ public class LocalTinderServer {
 						"/liked/*");
 				addServlet(new ServletHolder(new MessagesServlet(userDAO, likedDAO)),
 						"/messages/*");
-				addServlet(new ServletHolder(new StylesServlet()), "/assets");
+				addServlet(new ServletHolder(new StylesServlet()), "/assets/*");
 			}});
 			start();
 			join();
