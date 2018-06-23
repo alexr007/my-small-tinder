@@ -63,7 +63,7 @@
                         <#list received as rcvd>
                         <li class="receive-msg float-left mb-2">
                             <div class="sender-img">
-                                <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
+                                <img src="${user.imgURL}" class="float-left">
                             </div>
                             <div class="receive-msg-desc float-rigst ml-2">
                                 <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
@@ -81,7 +81,10 @@
                             <i class="fa fa-smile-o"></i>
                         </div>
                         <div class="col-md-7 pl-0">
-                            <input type="text" class="border-0" placeholder=" Send message" />
+                            <form action="/messages/${user.id}" method="post">
+                                <input type="text" class="border-0" name="textMSG" placeholder=" Send message" />
+                                <input type="submit" class="border-0" name="sendMessage" value="SEND">
+                            </form>
                         </div>
                         <div class="col-md-3 text-right options-right">
                             <i class="fa fa-picture-o mr-2"></i>

@@ -7,6 +7,7 @@ import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.MessagesDAO;
 import ua.danit.dao.UsersDAO;
+import ua.danit.model.Yamnyk_messages;
 import ua.danit.model.Yamnyk_users;
 
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,11 +45,9 @@ public class MessagesServlet extends HttpServlet {
         cfg.setWrapUncheckedExceptions(true);
 
         Map<String, Object> map = new HashMap<>();
-        String[] uriParam = req.getRequestURI().split("/");
-        Long userID = Long.valueOf(uriParam[uriParam.length -1]);
-        Yamnyk_users user = users.get(userID);
+        Yamnyk_users user = createUserFromURI(req);
         map.put("user", user);
-        map.put("sanded", new MessagesDAO().getByRecipient(userID));
+        map.put("sanded", new MessagesDAO().getByRecipient(user.getId()));
         map.put("received", new MessagesDAO().getByRecipient((long)123));
 
         Template tmpl = cfg.getTemplate("chat.html");
@@ -61,11 +61,23 @@ public class MessagesServlet extends HttpServlet {
 //        Writer out = resp.getWriter();
 //        out.write(tmpl.toString());
     }
-	
-	@Override
+
+    @Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String prevLogin = req.getParameter("liked");
+        String text = req.getParameter("textMSG");
+
+        Yamnyk_users user = createUserFromURI(req);
+
+        MessagesDAO messagesDAO = new MessagesDAO();
+        Yamnyk_messages msg = new Yamnyk_messages();
+
+        msg.setText(text);
+        msg.setMessageTime(new Timestamp(System.currentTimeMillis()));
+        msg.setSender((long)123);
+        msg.setRecipient(user.getId());
+
+        messagesDAO.save(msg);
 
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
         String appDir = System.getProperty("user.dir");
@@ -76,7 +88,23 @@ public class MessagesServlet extends HttpServlet {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("user", user);
+        map.put("sanded", new MessagesDAO().getByRecipient(user.getId()));
+        map.put("received", new MessagesDAO().getByRecipient((long)123));
+
         Template tmpl = cfg.getTemplate("chat.html");
-        resp.getWriter().write(tmpl.toString());
+        Writer out = resp.getWriter();
+        try {
+            tmpl.process(map, out);
+        } catch (TemplateException e1) {
+            e1.printStackTrace();
+        }
 	}
+
+    private Yamnyk_users createUserFromURI(HttpServletRequest req) {
+        String[] uriParam = req.getRequestURI().split("/");
+        Long userID = Long.valueOf(uriParam[uriParam.length -1]);
+        return users.get(userID);
+    }
 }
