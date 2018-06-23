@@ -47,8 +47,7 @@ public class MessagesServlet extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         Yamnyk_users user = createUserFromURI(req);
         map.put("user", user);
-        map.put("sanded", new MessagesDAO().getByRecipient(user.getId()));
-        map.put("received", new MessagesDAO().getByRecipient((long)123));
+        map.put("messages", new MessagesDAO().getByFromTo((long)123, user.getId()));
 
         Template tmpl = cfg.getTemplate("chat.html");
         Writer out = resp.getWriter();
@@ -90,8 +89,7 @@ public class MessagesServlet extends HttpServlet {
 
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
-        map.put("sanded", new MessagesDAO().getByRecipient(user.getId()));
-        map.put("received", new MessagesDAO().getByRecipient((long)123));
+        map.put("sanded", new MessagesDAO().getByFromTo((long)123,user.getId()));
 
         Template tmpl = cfg.getTemplate("chat.html");
         Writer out = resp.getWriter();
