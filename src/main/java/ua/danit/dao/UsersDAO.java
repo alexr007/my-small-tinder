@@ -71,6 +71,27 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
         return null;
     }
 
+    public boolean getByEmailAndPass(String email, String pass) {
+
+        String sql = "SELECT * FROM yamnyk_users WHERE email='"+email+"'";
+        boolean answ = false;
+        try(Connection connection = new ConnectionToDB().getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rSet = statement.executeQuery()){
+
+            while(rSet.next()) {
+                if(rSet.getString("email").equals(email)
+                        && rSet.getString("password").equals(pass)){
+                    answ = true;
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return answ;
+    }
+
     public ArrayList<Yamnyk_users> getAll() {
         ArrayList<Yamnyk_users> users = new ArrayList<>();
 
