@@ -8,6 +8,7 @@ import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.FreemarkerInit;
+import ua.danit.utils.GetFromCoockies;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,11 +34,12 @@ public class LikedServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
 
         FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, ArrayList> map = new HashMap<>();
-        map.put("liked", likedDAO.getLiked());
+        map.put("liked", likedDAO.getLiked(myID));
         map.put("users", users);
 
         Template tmpl = fm.getCfg().getTemplate("people-list.html");

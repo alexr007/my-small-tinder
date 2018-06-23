@@ -50,9 +50,9 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         return null;
     }
 
-    public ArrayList<Yamnyk_liked> getLiked(){
+    public ArrayList<Yamnyk_liked> getLiked(Long myID){
         ArrayList<Yamnyk_liked> liked = new ArrayList<>();
-        String sql = "SELECT * FROM yamnyk_liked";
+        String sql = "SELECT * FROM yamnyk_liked WHERE who='"+myID+"'";
 
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -91,9 +91,9 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         }
     }
 
-    public boolean hasBeenLiked(Long whom) {
+    public boolean hasBeenLiked(Long myID, Long whom) {
         boolean answ = false;
-        for(Yamnyk_liked liked : getLiked()){
+        for(Yamnyk_liked liked : getLiked(myID)){
             if(liked.getWhom().equals(whom)){
                 answ = true;
             }

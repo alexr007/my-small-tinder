@@ -2,10 +2,10 @@ package ua.danit.controllers;
 
 import freemarker.template.Template;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.FreemarkerInit;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +26,11 @@ public class LoginServlet extends HttpServlet {
         String pass = req.getParameter("password");
 
         UsersDAO usersDAO = new UsersDAO();
-        if(usersDAO.getByEmailAndPass(email, pass)){
+        if(usersDAO.existByEmailAndPass(email, pass)){
+            Cookie cookie = new Cookie("userID",
+                    usersDAO.getByEmailAndPass(email,pass).getId().toString());
+            cookie.setMaxAge(80);
+
             resp.sendRedirect("/users");
         } else {
             resp.sendRedirect("login");

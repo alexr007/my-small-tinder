@@ -8,6 +8,7 @@ import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_liked;
 import ua.danit.utils.FreemarkerInit;
+import ua.danit.utils.GetFromCoockies;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,11 +35,12 @@ public class UsersServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+        String id = new GetFromCoockies().getID(req.getCookies());
+        Long myID = Long.valueOf(id);
         FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, String> map = new HashMap<>();
-        while(likedDAO.hasBeenLiked(users.getAll().get(counter).getId())){
+        while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
             counter++;
         }
         map.put("name", users.getAll().get(counter).getName());
@@ -59,9 +61,10 @@ public class UsersServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String liked = req.getParameter("liked");
+        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
 
         if(liked!=null){
-            if(likedDAO.hasBeenLiked(Long.valueOf(liked))){
+            if(likedDAO.hasBeenLiked(myID, Long.valueOf(liked))){
                 Yamnyk_liked lkd = new Yamnyk_liked();
                 lkd.setLike_id(Long.valueOf(liked));
                 lkd.setWho((long) 123);
@@ -87,7 +90,7 @@ public class UsersServlet extends HttpServlet {
 
         Map<String, String> map = new HashMap<>();
 
-        while(likedDAO.hasBeenLiked(users.getAll().get(counter).getId())){
+        while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
             counter++;
         }
 
