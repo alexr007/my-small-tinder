@@ -7,6 +7,7 @@ import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_users;
+import ua.danit.utils.FreemarkerInit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,20 +34,13 @@ public class LikedServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, ArrayList> map = new HashMap<>();
         map.put("liked", likedDAO.getLiked());
         map.put("users", users);
 
-        Template tmpl = cfg.getTemplate("people-list.html");
+        Template tmpl = fm.getCfg().getTemplate("people-list.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -60,16 +54,9 @@ public class LikedServlet extends HttpServlet {
             throws ServletException, IOException {
         String prevLogin = req.getParameter("liked");
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
-        Template tmpl = cfg.getTemplate("people-list.html");
+        Template tmpl = fm.getCfg().getTemplate("people-list.html");
         resp.getWriter().write(tmpl.toString());
 	}
 }

@@ -9,6 +9,7 @@ import ua.danit.dao.MessagesDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_messages;
 import ua.danit.model.Yamnyk_users;
+import ua.danit.utils.FreemarkerInit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,21 +36,14 @@ public class MessagesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, Object> map = new HashMap<>();
         Yamnyk_users user = createUserFromURI(req);
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo((long)123, user.getId()));
 
-        Template tmpl = cfg.getTemplate("chat.html");
+        Template tmpl = fm.getCfg().getTemplate("chat.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -78,20 +72,13 @@ public class MessagesServlet extends HttpServlet {
 
         messagesDAO.save(msg);
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, Object> map = new HashMap<>();
         map.put("user", user);
-        map.put("sanded", new MessagesDAO().getByFromTo((long)123,user.getId()));
+        map.put("messages", new MessagesDAO().getByFromTo((long)123,user.getId()));
 
-        Template tmpl = cfg.getTemplate("chat.html");
+        Template tmpl = fm.getCfg().getTemplate("chat.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);

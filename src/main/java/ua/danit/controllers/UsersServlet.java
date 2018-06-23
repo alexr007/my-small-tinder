@@ -7,6 +7,7 @@ import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_liked;
+import ua.danit.utils.FreemarkerInit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,14 +35,7 @@ public class UsersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, String> map = new HashMap<>();
         while(likedDAO.hasBeenLiked(users.getAll().get(counter).getId())){
@@ -51,7 +45,7 @@ public class UsersServlet extends HttpServlet {
         map.put("id", users.getAll().get(counter).getId().toString() );
         map.put("imgURL", users.getAll().get(counter).getImgURL());
 
-        Template tmpl = cfg.getTemplate("like-page.html");
+        Template tmpl = fm.getCfg().getTemplate("like-page.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
@@ -84,14 +78,7 @@ public class UsersServlet extends HttpServlet {
             }
         }
 
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        String appDir = System.getProperty("user.dir");
-        cfg.setDirectoryForTemplateLoading(new File(appDir
-                + "/src/main/resources/static/"));
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
+        FreemarkerInit fm = new FreemarkerInit();
 
         if(counter == users.getAll().size()){
             resp.sendRedirect("/liked");
@@ -108,7 +95,7 @@ public class UsersServlet extends HttpServlet {
         map.put("id", users.getAll().get(counter).getId().toString());
         map.put("imgURL", users.getAll().get(counter).getImgURL());
 
-        Template tmpl = cfg.getTemplate("like-page.html");
+        Template tmpl = fm.getCfg().getTemplate("like-page.html");
         Writer out = resp.getWriter();
         try {
             tmpl.process(map, out);
