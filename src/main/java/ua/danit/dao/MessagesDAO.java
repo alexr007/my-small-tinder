@@ -53,7 +53,9 @@ public class MessagesDAO extends AbstractDAO<Yamnyk_messages> {
 
     public ArrayList<Yamnyk_messages> getByFromTo(Long whoID, Long whomID) {
         ArrayList<Yamnyk_messages> messages = new ArrayList<>();
-        String sql = "SELECT * FROM yamnyk_messages WHERE recipient IN("+whomID+","+whoID+") ORDER BY message_time";
+        String sql = "SELECT * FROM yamnyk_messages\n" +
+                "WHERE sender ='"+whoID+"' AND recipient='"+whomID+"' UNION SELECT * FROM yamnyk_messages\n" +
+                "WHERE sender='"+whomID+"' AND recipient='"+whoID+"' ORDER BY message_time";
 
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);

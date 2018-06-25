@@ -39,6 +39,7 @@ public class MessagesServlet extends HttpServlet {
 
         Map<String, Object> map = new HashMap<>();
         Yamnyk_users user = createUserFromURI(req);
+        map.put("me",new UsersDAO().get(myID));
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo(myID, user.getId()));
 
@@ -75,6 +76,7 @@ public class MessagesServlet extends HttpServlet {
         FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, Object> map = new HashMap<>();
+        map.put("me",new UsersDAO().get(myID));
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo(myID,user.getId()));
 

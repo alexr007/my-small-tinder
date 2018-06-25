@@ -29,8 +29,8 @@ public class LoginServlet extends HttpServlet {
         if(usersDAO.existByEmailAndPass(email, pass)){
             Cookie cookie = new Cookie("userID",
                     usersDAO.getByEmailAndPass(email,pass).getId().toString());
-            cookie.setMaxAge(80);
 
+            resp.addCookie(cookie);
             resp.sendRedirect("/users");
         } else {
             resp.sendRedirect("login");

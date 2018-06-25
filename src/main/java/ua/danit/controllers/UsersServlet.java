@@ -67,14 +67,14 @@ public class UsersServlet extends HttpServlet {
             if(likedDAO.hasBeenLiked(myID, Long.valueOf(liked))){
                 Yamnyk_liked lkd = new Yamnyk_liked();
                 lkd.setLike_id(Long.valueOf(liked));
-                lkd.setWho((long) 123);
+                lkd.setWho(myID);
                 lkd.setWhom(Long.valueOf(liked));
                 lkd.setTime(new Timestamp(System.currentTimeMillis()));
                 likedDAO.update(lkd);
             } else {
                 Yamnyk_liked lkd = new Yamnyk_liked();
                 lkd.setLike_id(Long.valueOf(liked));
-                lkd.setWho((long) 123);
+                lkd.setWho(myID);
                 lkd.setWhom(Long.valueOf(liked));
                 lkd.setTime(new Timestamp(System.currentTimeMillis()));
                 likedDAO.save(lkd);
