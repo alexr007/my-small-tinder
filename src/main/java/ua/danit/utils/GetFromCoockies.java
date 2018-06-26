@@ -6,6 +6,7 @@ public class GetFromCoockies {
     public String getID(Cookie[] cookies) {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("userID")) {
+                cookie.setMaxAge(60);
                 return cookie.getValue();
             }
         }
