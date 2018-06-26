@@ -24,14 +24,22 @@
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
-                        <h6 class="ml-1 mb-0">${user.name}</h6>
+                        <h6 class="ml-1 mb-0">${me.name}</h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
-                        <i class="fa fa-window-minimize hide-chat-box hover text-center pt-1"></i>
-                        <p class="arrow-up mb-0">
-                            <i class="fa fa-arrow-up text-center pt-1"></i>
-                        </p>
-                        <i class="fa fa-times hover text-center pt-1"></i>
+                        <form action="/users" style="display:inline-block;">
+                            <button class="fa fa-window-minimize hide-chat-box hover text-center pt-1">
+                            </button>
+                        </form>
+                        <form action="/liked" style="display:inline-block;" class="arrow-up mb-0">
+                            <button class="fa fa-heart text-center pt-1" type="submit">
+                            </button>
+                        </form>
+                        <form action="/login" method="post" style="display:inline-block;">
+                            <input type="hidden" name="logout" value="logout">
+                            <button class="fa fa-times hover text-center pt-1">
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <div class="row header-two w-100">

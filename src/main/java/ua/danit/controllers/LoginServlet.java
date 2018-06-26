@@ -2,6 +2,7 @@ package ua.danit.controllers;
 
 import freemarker.template.Template;
 import ua.danit.dao.UsersDAO;
+import ua.danit.utils.CoockiesUtil;
 import ua.danit.utils.FreemarkerInit;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,9 @@ import java.io.IOException;
 
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         FreemarkerInit fm = new FreemarkerInit();
 
         Template tmpl = fm.getCfg().getTemplate("login.html");
@@ -21,12 +24,18 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String logout = req.getParameter("logout");
+
         String email = req.getParameter("email");
         String pass = req.getParameter("password");
 
         UsersDAO usersDAO = new UsersDAO();
-        if(usersDAO.existByEmailAndPass(email, pass)){
+        if(logout != null){
+            new CoockiesUtil().kill(req.getCookies(), resp);
+            resp.sendRedirect("/login");
+        } else if(usersDAO.existByEmailAndPass(email, pass)){
             Cookie cookie = new Cookie("userID",
                     usersDAO.getByEmailAndPass(email,pass).getId().toString());
 

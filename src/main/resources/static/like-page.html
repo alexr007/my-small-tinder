@@ -19,6 +19,26 @@
 
 <div class="col-4 offset-4" align="center">
     <div class="card">
+        <div class="row header-one text-white p-1">
+            <div class="col-md-6 name pl-2">
+                <h6 class="ml-1 mb-0">${myName}</h6>
+            </div>
+            <div class="col-md-6 options text-right pr-0">
+                <form action="/users" style="display:inline-block;">
+                    <button class="fa fa-window-minimize hide-chat-box hover text-center pt-1">
+                    </button>
+                </form>
+                <form action="/liked" style="display:inline-block;" class="arrow-up mb-0">
+                    <button class="fa fa-heart text-center pt-1" type="submit">
+                    </button>
+                </form>
+                <form action="/login" method="post" style="display:inline-block;">
+                    <input type="hidden" name="logout" value="logout">
+                    <button class="fa fa-times hover text-center pt-1">
+                    </button>
+                </form>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-lg-12 col-md-12 text-center">

@@ -1,9 +1,7 @@
 package ua.danit.controllers.filter;
 
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
 import ua.danit.dao.UsersDAO;
-import ua.danit.utils.GetFromCoockies;
+import ua.danit.utils.CoockiesUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +22,11 @@ public class LoginFilter implements Filter{
         HttpServletResponse resp = (HttpServletResponse) response;
 
         if(req.getCookies() != null){
-
-            if(new UsersDAO().get(Long.valueOf(
-                    new GetFromCoockies()
+            //if cookies not empty, but no authorisation found
+            if(new CoockiesUtil().getID(req.getCookies()) == null){
+                resp.sendRedirect("/login");
+            } else if(new UsersDAO().get(Long.valueOf(
+                    new CoockiesUtil()
                             .getID(req.getCookies()))) == null){
 
                 resp.sendRedirect("/login");

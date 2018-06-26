@@ -1,16 +1,7 @@
 package ua.danit.dao;
 
 
-import ua.danit.model.UserDemo;
-import ua.danit.model.Yamnyk_users;
-import ua.danit.utils.GeneratorID;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import unlike
 
 public class UsersDAO extends AbstractDAO<Yamnyk_users>{
     @Override
@@ -61,6 +52,7 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
                 user.setId(rSet.getLong("id"));
                 user.setName(rSet.getString("name"));
                 user.setImgURL(rSet.getString("imgURL"));
+                user.setGender(rSet.getInt("gender"));
 
                 return user;
             }

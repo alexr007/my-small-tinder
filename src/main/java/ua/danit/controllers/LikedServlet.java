@@ -1,20 +1,17 @@
 package ua.danit.controllers;
 
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.FreemarkerInit;
-import ua.danit.utils.GetFromCoockies;
+import ua.danit.utils.CoockiesUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -34,13 +31,14 @@ public class LikedServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
+        Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
         FreemarkerInit fm = new FreemarkerInit();
 
-        Map<String, ArrayList> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("liked", likedDAO.getLiked(myID));
         map.put("users", users);
+        map.put("myName", new UsersDAO().get(myID).getName());
 
         Template tmpl = fm.getCfg().getTemplate("people-list.html");
         Writer out = resp.getWriter();

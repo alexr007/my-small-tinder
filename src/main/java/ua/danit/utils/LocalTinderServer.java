@@ -17,11 +17,9 @@ public class LocalTinderServer {
 	public static void start() throws Exception{
         final UsersDAO userDAO = new UsersDAO();
         final LikedDAO likedDAO = new LikedDAO();
-		//creating new instance of class Server from jetty lib
-		//using anonymous class for not initialise any variables
+
 		new Server(8080){{
 			setHandler(new ServletContextHandler(){{
-				//create endpoints for servlets without any variables
 				addServlet(new ServletHolder(new UsersServlet(userDAO, likedDAO)),
 						"/users/*");
 				addServlet(new ServletHolder(new LikedServlet(userDAO, likedDAO)),
@@ -29,7 +27,7 @@ public class LocalTinderServer {
 				addServlet(new ServletHolder(new MessagesServlet(userDAO, likedDAO)),
 						"/messages/*");
 				addServlet(new ServletHolder(new StylesServlet()), "/assets/*");
-				addServlet(new ServletHolder(new LoginServlet()), "/login/*");
+				addServlet(new ServletHolder(new LoginServlet()), "/login");
 
                 for(String path : Arrays.asList("/users/*", "/messages/*", "/liked/*")){
 

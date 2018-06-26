@@ -8,7 +8,7 @@ import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_messages;
 import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.FreemarkerInit;
-import ua.danit.utils.GetFromCoockies;
+import ua.danit.utils.CoockiesUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +33,7 @@ public class MessagesServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
+        Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
         FreemarkerInit fm = new FreemarkerInit();
 
@@ -59,7 +59,7 @@ public class MessagesServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String text = req.getParameter("textMSG");
-        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
+        Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
         Yamnyk_users user = createUserFromURI(req);
 

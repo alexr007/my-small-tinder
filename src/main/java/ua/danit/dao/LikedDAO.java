@@ -91,6 +91,36 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         }
     }
 
+    public ArrayList<Yamnyk_users> getUnliked(Long myID, int myGender){
+        ArrayList<Yamnyk_users> unLiked = new ArrayList<>();
+        String sql = "SELECT * FROM yamnyk_users WHERE id IN ("+
+                "SELECT id FROM yamnyk_users WHERE id NOT IN ("+
+                "SELECT id FROM yamnyk_users RIGHT OUTER JOIN yamnyk_liked lkd ON  " +
+                "yamnyk_users.id = lkd.whom WHERE who = '"+myID+"') AND gender != '"+myGender+"')";
+
+        try(Connection connection = new ConnectionToDB().getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rSet = statement.executeQuery()){
+
+            while(rSet.next()) {
+                if(!rSet.getString("id").equals(myID.toString())){
+                    Yamnyk_users user = new Yamnyk_users();
+                    user.setName(rSet.getString("name"));
+                    user.setImgURL(rSet.getString("imgURL"));
+                    user.setPassword(rSet.getString("password"));
+                    user.setEmail(rSet.getString("email"));
+                    user.setGender(rSet.getInt("gender"));
+                    unLiked.add(user);
+                }
+            }
+            return unLiked;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean hasBeenLiked(Long myID, Long whom) {
         boolean answ = false;
         for(Yamnyk_liked liked : getLiked(myID)){

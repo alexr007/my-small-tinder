@@ -5,9 +5,19 @@ import ua.danit.utils.GeneratorID;
 public class Yamnyk_users {
     private Long id;
     private String name;
+    private int gender;
     private String imgURL;
     private String password;
     private String email;
+
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
 
     public Yamnyk_users() {
         id = Long.valueOf(GeneratorID.generateNewID());

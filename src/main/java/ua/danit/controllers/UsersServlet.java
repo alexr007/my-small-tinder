@@ -1,23 +1,22 @@
 package ua.danit.controllers;
 
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.model.Yamnyk_liked;
+import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.FreemarkerInit;
-import ua.danit.utils.GetFromCoockies;
+import ua.danit.utils.CoockiesUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,21 +30,27 @@ public class UsersServlet extends HttpServlet {
         this.likedDAO = likedDAO;
     }
 
-
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String id = new GetFromCoockies().getID(req.getCookies());
+        String id = new CoockiesUtil().getID(req.getCookies());
         Long myID = Long.valueOf(id);
         FreemarkerInit fm = new FreemarkerInit();
+        Yamnyk_users me = users.get(myID);
 
         Map<String, String> map = new HashMap<>();
-        while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
+        /*while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
             counter++;
-        }
-        map.put("name", users.getAll().get(counter).getName());
-        map.put("id", users.getAll().get(counter).getId().toString() );
-        map.put("imgURL", users.getAll().get(counter).getImgURL());
+        }*/
+        ArrayList<Yamnyk_users> unliked = likedDAO.getUnliked(myID,users.get(myID).getGender());
+        map.put("name",
+                unliked.get(counter).getName());
+        map.put("id",
+                unliked.get(counter).getId().toString());
+        map.put("imgURL",
+                unliked.get(counter).getImgURL());
+
+        map.put("myName", users.get(myID).getName());
 
         Template tmpl = fm.getCfg().getTemplate("like-page.html");
         Writer out = resp.getWriter();
@@ -61,7 +66,8 @@ public class UsersServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String liked = req.getParameter("liked");
-        Long myID = Long.valueOf(new GetFromCoockies().getID(req.getCookies()));
+        Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
+        int gender = users.get(myID).getGender();
 
         if(liked!=null){
             if(likedDAO.hasBeenLiked(myID, Long.valueOf(liked))){
@@ -83,20 +89,27 @@ public class UsersServlet extends HttpServlet {
 
         FreemarkerInit fm = new FreemarkerInit();
 
-        if(counter == users.getAll().size()){
+        if(counter == likedDAO.getUnliked(myID, users.get(myID).getGender()).size()){
             resp.sendRedirect("/liked");
             counter = 0;
         }
 
         Map<String, String> map = new HashMap<>();
 
-        while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
+        /*while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
             counter++;
-        }
+        }*/
 
-        map.put("name", users.getAll().get(counter).getName());
-        map.put("id", users.getAll().get(counter).getId().toString());
-        map.put("imgURL", users.getAll().get(counter).getImgURL());
+        map.put("name",
+                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getName());
+
+        map.put("id",
+                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getId().toString());
+
+        map.put("imgURL",
+                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getImgURL());
+
+        map.put("myName", users.get(myID).getName());
 
         Template tmpl = fm.getCfg().getTemplate("like-page.html");
         Writer out = resp.getWriter();
