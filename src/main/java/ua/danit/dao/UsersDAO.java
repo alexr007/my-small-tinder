@@ -1,7 +1,13 @@
 package ua.danit.dao;
 
 
-import unlike
+import ua.danit.model.Yamnyk_users;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UsersDAO extends AbstractDAO<Yamnyk_users>{
     @Override
