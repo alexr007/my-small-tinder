@@ -28,6 +28,7 @@ public class LocalTinderServer {
 						"/messages/*");
 				addServlet(new ServletHolder(new StylesServlet()), "/assets/*");
 				addServlet(new ServletHolder(new LoginServlet()), "/login");
+				addServlet(new ServletHolder(new RegisterServlet()), "/register");
 
                 for(String path : Arrays.asList("/users/*", "/messages/*", "/liked/*")){
 

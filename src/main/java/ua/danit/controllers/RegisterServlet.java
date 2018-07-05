@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         FreemarkerInit fm = new FreemarkerInit();
 
-        Template tmpl = fm.getCfg().getTemplate("login.html");
+        Template tmpl = fm.getCfg().getTemplate("register.html");
         resp.getWriter().write(tmpl.toString());
     }
 
