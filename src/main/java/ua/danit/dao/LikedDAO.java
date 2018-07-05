@@ -105,6 +105,7 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
             while(rSet.next()) {
                 if(!rSet.getString("id").equals(myID.toString())){
                     Yamnyk_users user = new Yamnyk_users();
+                    user.setId(rSet.getLong("id"));
                     user.setName(rSet.getString("name"));
                     user.setImgURL(rSet.getString("imgURL"));
                     user.setPassword(rSet.getString("password"));

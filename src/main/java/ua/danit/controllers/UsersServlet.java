@@ -79,9 +79,9 @@ public class UsersServlet extends HttpServlet {
                 likedDAO.update(lkd);
             } else {
                 Yamnyk_liked lkd = new Yamnyk_liked();
-                lkd.setLike_id(Long.valueOf(liked));
+                 lkd.setLike_id(Long.valueOf(liked));
                 lkd.setWho(myID);
-                lkd.setWhom(Long.valueOf(liked));
+                lkd.setWhom(new UsersDAO().get(Long.valueOf(liked)).getId());
                 lkd.setTime(new Timestamp(System.currentTimeMillis()));
                 likedDAO.save(lkd);
             }
