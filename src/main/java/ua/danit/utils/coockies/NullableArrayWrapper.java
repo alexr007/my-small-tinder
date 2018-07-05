@@ -1,4 +1,4 @@
-packagemodifiedt.utils.coockies;
+package ua.danit.utils.coockies;
 
 import java.util.*;
 import java.util.function.Supplier;
