@@ -19,6 +19,15 @@ public class Yamnyk_users {
         this.gender = gender;
     }
 
+    public Yamnyk_users(Long id, String name, int gender, String imgURL, String password, String email) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.imgURL = imgURL;
+        this.password = password;
+        this.email = email;
+    }
+
     public Yamnyk_users() {
         id = Long.valueOf(GeneratorID.generateNewID());
     }

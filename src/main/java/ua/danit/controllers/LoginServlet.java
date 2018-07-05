@@ -26,9 +26,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if("reg".equals(req.getParameter("singUP"))){
-            resp.sendRedirect("/register");
-        } else {
 
             String logout = req.getParameter("logout");
 
@@ -48,6 +45,5 @@ public class LoginServlet extends HttpServlet {
             } else {
                 resp.sendRedirect("login");
             }
-        }
     }
 }

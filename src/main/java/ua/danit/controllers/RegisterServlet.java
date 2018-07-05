@@ -2,8 +2,10 @@ package ua.danit.controllers;
 
 import freemarker.template.Template;
 import ua.danit.dao.UsersDAO;
+import ua.danit.model.Yamnyk_users;
 import ua.danit.utils.CoockiesUtil;
 import ua.danit.utils.FreemarkerInit;
+import ua.danit.utils.GeneratorID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -26,28 +28,27 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        if("reg".equals(req.getParameter("singUP"))){
-            resp.sendRedirect("/register");
-        } else {
+        String email = req.getParameter("email");
+        String pass = req.getParameter("password");
+        int gender = "male".equals(req.getParameter("gender")) ? 1 : 0;
+        String imgURL = req.getParameter("imgURL");
+        String name = req.getParameter("name");
 
-            String logout = req.getParameter("logout");
+        UsersDAO usersDAO = new UsersDAO();
+        usersDAO.save(new Yamnyk_users(
+                    Long.valueOf(new GeneratorID().generateNewID()),
+                name,
+                gender,
+                imgURL,
+                pass,
+                email
+        ));
+        Cookie cookie = new Cookie("userID",
+                usersDAO.getByEmailAndPass(email, pass).getId().toString());
 
-            String email = req.getParameter("email");
-            String pass = req.getParameter("password");
+        resp.addCookie(cookie);
+        resp.sendRedirect("/users");
 
-            UsersDAO usersDAO = new UsersDAO();
-            if (logout != null) {
-                new CoockiesUtil().kill(req.getCookies(), resp);
-                resp.sendRedirect("/login");
-            } else if (usersDAO.existByEmailAndPass(email, pass)) {
-                Cookie cookie = new Cookie("userID",
-                        usersDAO.getByEmailAndPass(email, pass).getId().toString());
 
-                resp.addCookie(cookie);
-                resp.sendRedirect("/users");
-            } else {
-                resp.sendRedirect("login");
-            }
-        }
     }
 }

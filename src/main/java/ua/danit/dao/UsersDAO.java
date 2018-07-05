@@ -2,6 +2,7 @@ package ua.danit.dao;
 
 
 import ua.danit.model.Yamnyk_users;
+import ua.danit.utils.GeneratorID;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,13 +13,16 @@ import java.util.ArrayList;
 public class UsersDAO extends AbstractDAO<Yamnyk_users>{
     @Override
     public void save(Yamnyk_users user) {
-        String sql = "INSERT INTO yamnyk_users(id, name, imgURL) VALUES(?,?,?)";
+        String sql = "INSERT INTO yamnyk_users(id, name, imgURL, gender, password, email) VALUES(?,?,?,?,?,?)";
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
 
             statement.setLong(1, user.getId());
             statement.setString(2, user.getName());
             statement.setString(3, user.getImgURL());
+            statement.setInt(4, user.getGender());
+            statement.setString(5, user.getPassword());
+            statement.setString(6, user.getEmail());
 
             statement.executeUpdate();
 
@@ -59,6 +63,8 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
                 user.setName(rSet.getString("name"));
                 user.setImgURL(rSet.getString("imgURL"));
                 user.setGender(rSet.getInt("gender"));
+                user.setPassword(rSet.getString("password"));
+                user.setEmail(rSet.getString("email"));
 
                 return user;
             }
@@ -84,6 +90,7 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
                     user.setId(rSet.getLong("id"));
                     user.setName(rSet.getString("name"));
                     user.setImgURL(rSet.getString("imgURL"));
+                    user.setGender(rSet.getInt("gender"));
                     user.setEmail(email);
                     user.setPassword(pass);
                     return user;
@@ -130,6 +137,9 @@ public class UsersDAO extends AbstractDAO<Yamnyk_users>{
                 user.setId(rSet.getLong("id"));
                 user.setName(rSet.getString("name"));
                 user.setImgURL(rSet.getString("imgURL"));
+                user.setGender(rSet.getInt("gender"));
+                user.setPassword(rSet.getString("password"));
+                user.setEmail(rSet.getString("email"));
 
                 users.add(user);
             }
