@@ -9,9 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
+public class LikedDAO {
 
-    @Override
     public void save(Yamnyk_liked like) {
         String sql = "INSERT INTO yamnyk_liked(who, whom, time) VALUES(?,?,?)";
         try(Connection connection = new ConnectionToDB().getConnection();
@@ -28,7 +27,6 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         }
     }
 
-    @Override
     public void update(Yamnyk_liked like) {
         String sql = "UPDATE yamnyk_liked SET time=? WHERE whom=?";
 
@@ -45,11 +43,6 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         }
     }
 
-    @Override
-    public Yamnyk_liked get(Long id) {
-        return null;
-    }
-
     public ArrayList<Yamnyk_liked> getLiked(Long myID){
         ArrayList<Yamnyk_liked> liked = new ArrayList<>();
         String sql = "SELECT * FROM yamnyk_liked WHERE who='"+myID+"'";
@@ -59,13 +52,7 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
             ResultSet rSet = statement.executeQuery()){
 
             while(rSet.next()) {
-                Yamnyk_liked like = new Yamnyk_liked();
-                like.setLike_id(rSet.getLong("like_id"));
-                like.setWho(rSet.getLong("who"));
-                like.setWhom(rSet.getLong("whom"));
-                like.setTime(rSet.getTimestamp("time"));
-
-                liked.add(like);
+                liked.add(getLikeFromResultSet(rSet));
             }
             return liked;
 
@@ -75,43 +62,24 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
         return null;
     }
 
-    @Override
-    public void delete(Long pk) {
-        String sql = "DELETE FROM yamnyk_liked WHERE id=?";
-
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
-
-            statement.setLong(1, pk);
-
-            statement.executeUpdate();
-
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
     public ArrayList<Yamnyk_users> getUnliked(Long myID, int myGender){
         ArrayList<Yamnyk_users> unLiked = new ArrayList<>();
         String sql = "SELECT * FROM yamnyk_users WHERE id IN ("+
                 "SELECT id FROM yamnyk_users WHERE id NOT IN ("+
                 "SELECT id FROM yamnyk_users RIGHT OUTER JOIN yamnyk_liked lkd ON  " +
-                "yamnyk_users.id = lkd.whom WHERE who = '"+myID+"') AND gender != '"+myGender+"')";
+                "yamnyk_users.id = lkd.whom WHERE who = ?) AND gender != ?)";
 
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rSet = statement.executeQuery()){
+            ){
 
+            statement.setLong(1, myID);
+            statement.setInt(2, myGender);
+
+            ResultSet rSet = statement.executeQuery();
             while(rSet.next()) {
                 if(!rSet.getString("id").equals(myID.toString())){
-                    Yamnyk_users user = new Yamnyk_users();
-                    user.setId(rSet.getLong("id"));
-                    user.setName(rSet.getString("name"));
-                    user.setImgURL(rSet.getString("imgURL"));
-                    user.setPassword(rSet.getString("password"));
-                    user.setEmail(rSet.getString("email"));
-                    user.setGender(rSet.getInt("gender"));
-                    unLiked.add(user);
+                    unLiked.add(new UsersDAO().getUserFromResultSet(rSet));
                 }
             }
             return unLiked;
@@ -130,5 +98,14 @@ public class LikedDAO extends AbstractDAO<Yamnyk_liked> {
             }
         }
         return answ;
+    }
+
+    public Yamnyk_liked getLikeFromResultSet(ResultSet rSet) throws SQLException{
+        Yamnyk_liked like = new Yamnyk_liked();
+        like.setLike_id(rSet.getLong("like_id"));
+        like.setWho(rSet.getLong("who"));
+        like.setWhom(rSet.getLong("whom"));
+        like.setTime(rSet.getTimestamp("time"));
+        return like;
     }
 }

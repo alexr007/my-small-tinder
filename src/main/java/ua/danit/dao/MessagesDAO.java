@@ -9,9 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MessagesDAO extends AbstractDAO<Yamnyk_messages> {
+public class MessagesDAO {
 
-    @Override
     public void save(Yamnyk_messages msg) {
         String sql = "INSERT INTO yamnyk_messages(sender, recipient, text, message_time) VALUES(?,?,?,?)";
         try(Connection connection = new ConnectionToDB().getConnection();
@@ -29,7 +28,6 @@ public class MessagesDAO extends AbstractDAO<Yamnyk_messages> {
         }
     }
 
-    @Override
     public void update(Yamnyk_messages msg) {
         String sql = "UPDATE yamnyk_messages SET text=? WHERE message_id = ?";
 
@@ -46,7 +44,6 @@ public class MessagesDAO extends AbstractDAO<Yamnyk_messages> {
         }
     }
 
-    @Override
     public Yamnyk_messages get(Long pk) {
         return null;
     }
@@ -78,7 +75,6 @@ public class MessagesDAO extends AbstractDAO<Yamnyk_messages> {
         return null;
     }
 
-    @Override
     public void delete(Long senderID) {
         String sql = "DELETE FROM yamnyk_messages WHERE sender=?";
 

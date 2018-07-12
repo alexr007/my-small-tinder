@@ -23,7 +23,7 @@ import java.util.Map;
 public class UsersServlet extends HttpServlet {
     private final UsersDAO users;
     private final LikedDAO likedDAO;
-    private static int counter = 0;
+    private static int counter;
 
     public UsersServlet(UsersDAO userDAO, LikedDAO likedDAO) {
         this.users = userDAO;
@@ -38,10 +38,8 @@ public class UsersServlet extends HttpServlet {
         FreemarkerInit fm = new FreemarkerInit();
         Yamnyk_users me = users.get(myID);
 
+        counter = 0;
         Map<String, String> map = new HashMap<>();
-        /*while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
-            counter++;
-        }*/
         ArrayList<Yamnyk_users> unliked = likedDAO.getUnliked(myID,users.get(myID).getGender());
         map.put("name",
                 unliked.get(counter).getName());
