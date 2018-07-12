@@ -1,13 +1,15 @@
 package ua.danit.model;
 
 
+import java.sql.Timestamp;
+
 public class Yamnyk_messages {
 
   private long messageId;
   private long sender;
   private long recipient;
   private String text;
-  private java.sql.Timestamp messageTime;
+  private Timestamp messageTime;
 
 
   public long getMessageId() {

@@ -90,7 +90,7 @@ public class LikedDAO {
         return null;
     }
 
-    public boolean hasBeenLiked(Long myID, Long whom) {
+    public boolean hasBeenLiked(Long myID, Long whom) { // toDo: stream
         boolean answ = false;
         for(Yamnyk_liked liked : getLiked(myID)){
             if(liked.getWhom().equals(whom)){

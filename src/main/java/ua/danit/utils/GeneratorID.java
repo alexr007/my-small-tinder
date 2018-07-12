@@ -1,9 +1,13 @@
 package ua.danit.utils;
 
+import java.util.UUID;
+
 public class GeneratorID {
     private int length;
 
-    public static Integer generateNewID(){
+    public static Integer generateNewID(){ //toDo: check Native Java implementation (UUID?)
+//        UUID.randomUUID().
+
         Integer source = (int)System.currentTimeMillis();
         String stringId = "";
         for (int i = 0; i < 6; i++) {
