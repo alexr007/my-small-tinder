@@ -84,8 +84,8 @@ public class MessagesServlet extends HttpServlet {
 	}
 
     private User createUserFromURI(HttpServletRequest req) {
-        String uriParam = req.getRequestURI().substring(1, req.getRequestURI().length());
-        Long userID = Long.valueOf(uriParam);
+        String[] uriParam = req.getRequestURI().split("/");
+        Long userID = Long.valueOf(uriParam[uriParam.length -1]);
         return users.get(userID);
     }
 }
