@@ -1,6 +1,6 @@
 package ua.danit.model;
 
-public class Yamnyk_liked {
+public class Like {
   private Long like_id;
   private Long who;
   private Long whom;

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/favicon.ico">
+    <link rel="icon" href="/home/yamnyk/Documents/my-small-tinder/src/main/resources/img/bubble.ico">
+
+    <!--TODO find the way to transfer the path to dirr with styles-->
 
     <title>People list</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -42,25 +44,21 @@
                     <div class="table-container">
                         <table class="table-users table" border="0">
                             <#list liked as i>
-                            <#list users as usr>
-                            <#if usr.id = i.whom>
                             <tbody>
                             <tr>
                                 <td width="10">
                                     <div class="avatar-img">
-                                        <form action="/messages/${i.whom}" method="get">
+                                        <form action="/messages/${i.id}" method="get">
                                             <button class="click-button" type="submit" name="goToChat">
-                                                <img class="img-circle" src="${usr.imgURL}">
+                                                <img class="img-circle" src="${i.imgURL}">
                                             </button>
                                         </form>
                                     </div>
                                 </td>
                                 <td class="align-middle">
-                                <td class="align-middle">${usr.name}</td>
+                                <td class="align-middle">${i.name}</td>
                             </tr>
                             </tbody>
-                            </#if>
-                            </#list>
                             </#list>
                         </table>
                     </div>

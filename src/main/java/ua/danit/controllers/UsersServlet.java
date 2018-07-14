@@ -4,8 +4,8 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.Yamnyk_liked;
-import ua.danit.model.Yamnyk_users;
+import ua.danit.model.Like;
+import ua.danit.model.User;
 import ua.danit.utils.FreemarkerInit;
 import ua.danit.utils.CoockiesUtil;
 
@@ -32,26 +32,23 @@ public class UsersServlet extends HttpServlet {
 
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String id = new CoockiesUtil().getID(req.getCookies());
         Long myID = Long.valueOf(id);
         FreemarkerInit fm = new FreemarkerInit();
-        Yamnyk_users me = users.get(myID);
+        User me = users.get(myID);
 
         counter = 0;
         Map<String, String> map = new HashMap<>();
-        ArrayList<Yamnyk_users> unliked = likedDAO.getUnliked(myID,users.get(myID).getGender());
-        map.put("name",
-                unliked.get(counter).getName());
-        map.put("id",
-                unliked.get(counter).getId().toString());
-        map.put("imgURL",
-                unliked.get(counter).getImgURL());
-
+        ArrayList<User> unliked = likedDAO.getUnliked(myID,users.get(myID).getGender());
+        map.put("name", unliked.get(counter).getName());
+        map.put("id", unliked.get(counter).getId().toString());
+        map.put("imgURL", unliked.get(counter).getImgURL());
         map.put("myName", users.get(myID).getName());
 
         Template tmpl = fm.getCfg().getTemplate("like-page.html");
         Writer out = resp.getWriter();
+
         try {
             tmpl.process(map, out);
             counter++;
@@ -62,22 +59,22 @@ public class UsersServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String liked = req.getParameter("liked");
         Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
         int gender = users.get(myID).getGender();
 
         if(liked!=null){
             if(likedDAO.hasBeenLiked(myID, Long.valueOf(liked))){
-                Yamnyk_liked lkd = new Yamnyk_liked();
+                Like lkd = new Like();
                 lkd.setLike_id(Long.valueOf(liked));
                 lkd.setWho(myID);
                 lkd.setWhom(Long.valueOf(liked));
                 lkd.setTime(new Timestamp(System.currentTimeMillis()));
                 likedDAO.update(lkd);
             } else {
-                Yamnyk_liked lkd = new Yamnyk_liked();
-                 lkd.setLike_id(Long.valueOf(liked));
+                Like lkd = new Like();
+                lkd.setLike_id(Long.valueOf(liked));
                 lkd.setWho(myID);
                 lkd.setWhom(new UsersDAO().get(Long.valueOf(liked)).getId());
                 lkd.setTime(new Timestamp(System.currentTimeMillis()));
@@ -93,20 +90,9 @@ public class UsersServlet extends HttpServlet {
         }
 
         Map<String, String> map = new HashMap<>();
-
-        /*while(likedDAO.hasBeenLiked(myID, users.getAll().get(counter).getId())){
-            counter++;
-        }*/
-
-        map.put("name",
-                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getName());
-
-        map.put("id",
-                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getId().toString());
-
-        map.put("imgURL",
-                likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getImgURL());
-
+        map.put("name", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getName());
+        map.put("id", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getId().toString());
+        map.put("imgURL", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getImgURL());
         map.put("myName", users.get(myID).getName());
 
         Template tmpl = fm.getCfg().getTemplate("like-page.html");

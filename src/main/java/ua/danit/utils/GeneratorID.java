@@ -5,12 +5,20 @@ import java.util.UUID;
 public class GeneratorID {
     private int length;
 
-    public static Integer generateNewID(){ //toDo: check Native Java implementation (UUID?)
-        Integer id = Integer.parseInt(UUID.randomUUID().toString());
-        return id;
+    public static Long generateNewID(){
+        UUID myuuid = UUID.randomUUID();
+        long highbits = myuuid.getMostSignificantBits();
+        long lowbits = myuuid.getLeastSignificantBits();
+
+        return highbits * lowbits;
     }
 
     public static void main(String[] args) {
-        System.out.println(GeneratorID.generateNewID());
+        UUID myuuid = UUID.randomUUID();
+        long highbits = myuuid.getMostSignificantBits();
+        long lowbits = myuuid.getLeastSignificantBits();
+        System.out.println("My UUID is: " + highbits + " " + lowbits);
+        System.out.println("My UUID is: " + highbits * lowbits);
+        System.out.println(myuuid);
     }
 }

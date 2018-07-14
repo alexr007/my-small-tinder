@@ -2,7 +2,7 @@ package ua.danit.model;
 
 import ua.danit.utils.GeneratorID;
 
-public class Yamnyk_users {
+public class User {
     private Long id;
     private String name;
     private int gender;
@@ -19,7 +19,7 @@ public class Yamnyk_users {
         this.gender = gender;
     }
 
-    public Yamnyk_users(Long id, String name, int gender, String imgURL, String password, String email) {
+    public User(Long id, String name, int gender, String imgURL, String password, String email) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -28,11 +28,11 @@ public class Yamnyk_users {
         this.email = email;
     }
 
-    public Yamnyk_users() {
-        id = Long.valueOf(GeneratorID.generateNewID());
+    public User() {
+
     }
 
-    public Yamnyk_users(String name, String imgURL) {
+    public User(String name, String imgURL) {
         id = Long.valueOf(GeneratorID.generateNewID());
         this.name = name;
         this.imgURL = imgURL;

@@ -1,7 +1,6 @@
 package ua.danit.dao;
 
-import ua.danit.model.Yamnyk_liked;
-import ua.danit.model.Yamnyk_messages;
+import ua.danit.model.Message;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +10,9 @@ import java.util.ArrayList;
 
 public class MessagesDAO {
 
-    public void save(Yamnyk_messages msg) {
+    public void save(Message msg) {
         String sql = "INSERT INTO yamnyk_messages(sender, recipient, text, message_time) VALUES(?,?,?,?)";
+
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
 
@@ -28,7 +28,7 @@ public class MessagesDAO {
         }
     }
 
-    public void update(Yamnyk_messages msg) {
+    public void update(Message msg) {
         String sql = "UPDATE yamnyk_messages SET text=? WHERE message_id = ?";
 
         try(Connection connection = new ConnectionToDB().getConnection();
@@ -44,44 +44,42 @@ public class MessagesDAO {
         }
     }
 
-    public Yamnyk_messages get(Long pk) {
-        return null;
-    }
-
-    public ArrayList<Yamnyk_messages> getByFromTo(Long whoID, Long whomID) {
-        ArrayList<Yamnyk_messages> messages = new ArrayList<>();
-        String sql = "SELECT * FROM yamnyk_messages\n" +
-                "WHERE sender ='"+whoID+"' AND recipient='"+whomID+"' UNION SELECT * FROM yamnyk_messages\n" +
-                "WHERE sender='"+whomID+"' AND recipient='"+whoID+"' ORDER BY message_time";
+    public ArrayList<Message> getByFromTo(Long whoID, Long whomID) {
+        ArrayList<Message> messages = new ArrayList<>();
+        String sql = "SELECT * FROM yamnyk_messages " +
+                "WHERE sender =? AND recipient=? UNION SELECT * FROM yamnyk_messages " +
+                "WHERE sender=? AND recipient=? ORDER BY message_time";
 
         try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rSet = statement.executeQuery()){
+            PreparedStatement statement = connection.prepareStatement(sql)){
+
+        	statement.setLong(1, whoID);
+        	statement.setLong(2, whomID);
+        	statement.setLong(3, whomID);
+        	statement.setLong(4, whoID);
+
+			ResultSet rSet = statement.executeQuery();
 
             while(rSet.next()) {
-                Yamnyk_messages msg = new Yamnyk_messages();
-                msg.setMessageTime(rSet.getTimestamp("message_time"));
-                msg.setSender(rSet.getLong("sender"));
-                msg.setRecipient(rSet.getLong("recipient"));
-                msg.setText(rSet.getString("text"));
-
-                messages.add(msg);
+                messages.add(getMessageFromResultSet(rSet));
             }
+
             return messages;
 
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return null;
+
+        return new ArrayList<>();
     }
 
-    public void delete(Long senderID) {
-        String sql = "DELETE FROM yamnyk_messages WHERE sender=?";
+	public void delete(Long messageID) {
+        String sql = "DELETE FROM yamnyk_messages WHERE message_id=?";
 
         try(Connection connection = new ConnectionToDB().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
 
-            statement.setLong(1, senderID);
+            statement.setLong(1, messageID);
 
             statement.executeUpdate();
 
@@ -89,4 +87,14 @@ public class MessagesDAO {
             e.printStackTrace();
         }
     }
+
+	private Message getMessageFromResultSet(ResultSet rSet) throws SQLException {
+		Message msg = new Message();
+		msg.setMessageTime(rSet.getTimestamp("message_time"));
+		msg.setSender(rSet.getLong("sender"));
+		msg.setRecipient(rSet.getLong("recipient"));
+		msg.setText(rSet.getString("text"));
+
+		return msg;
+	}
 }

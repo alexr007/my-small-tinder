@@ -5,8 +5,8 @@ import freemarker.template.TemplateException;
 import ua.danit.dao.LikedDAO;
 import ua.danit.dao.MessagesDAO;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.Yamnyk_messages;
-import ua.danit.model.Yamnyk_users;
+import ua.danit.model.Message;
+import ua.danit.model.User;
 import ua.danit.utils.FreemarkerInit;
 import ua.danit.utils.CoockiesUtil;
 
@@ -22,23 +22,21 @@ import java.util.Map;
 
 public class MessagesServlet extends HttpServlet {
     private final UsersDAO users;
-    private final LikedDAO likedDAO;
 
-    public MessagesServlet(UsersDAO userDAO, LikedDAO likedDAO) {
+    public MessagesServlet(UsersDAO userDAO) {
         this.users = userDAO;
-        this.likedDAO = likedDAO;
     }
 
 
     @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
         FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, Object> map = new HashMap<>();
-        Yamnyk_users user = createUserFromURI(req);
+        User user = createUserFromURI(req);
         map.put("me",new UsersDAO().get(myID));
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo(myID, user.getId()));
@@ -50,21 +48,17 @@ public class MessagesServlet extends HttpServlet {
         } catch (TemplateException e1) {
             e1.printStackTrace();
         }
-//        Template tmpl = cfg.getTemplate("messages.html");
-//        Writer out = resp.getWriter();
-//        out.write(tmpl.toString());
     }
 
     @Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String text = req.getParameter("textMSG");
         Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
-        Yamnyk_users user = createUserFromURI(req);
-
         MessagesDAO messagesDAO = new MessagesDAO();
-        Yamnyk_messages msg = new Yamnyk_messages();
+        Message msg = new Message();
+        User user = createUserFromURI(req);
 
         msg.setText(text);
         msg.setMessageTime(new Timestamp(System.currentTimeMillis()));
@@ -89,9 +83,9 @@ public class MessagesServlet extends HttpServlet {
         }
 	}
 
-    private Yamnyk_users createUserFromURI(HttpServletRequest req) {
-        String[] uriParam = req.getRequestURI().split("/");
-        Long userID = Long.valueOf(uriParam[uriParam.length -1]);
+    private User createUserFromURI(HttpServletRequest req) {
+        String uriParam = req.getRequestURI().substring(1, req.getRequestURI().length());
+        Long userID = Long.valueOf(uriParam);
         return users.get(userID);
     }
 }

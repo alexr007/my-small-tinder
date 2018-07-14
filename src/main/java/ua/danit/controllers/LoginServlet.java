@@ -15,8 +15,7 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
+            throws IOException {
         FreemarkerInit fm = new FreemarkerInit();
 
         Template tmpl = fm.getCfg().getTemplate("login.html");
@@ -25,8 +24,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-
+            throws IOException {
             String logout = req.getParameter("logout");
 
             String email = req.getParameter("email");
@@ -39,7 +37,6 @@ public class LoginServlet extends HttpServlet {
             } else if (usersDAO.existByEmailAndPass(email, pass)) {
                 Cookie cookie = new Cookie("userID",
                         usersDAO.getByEmailAndPass(email, pass).getId().toString());
-
                 resp.addCookie(cookie);
                 resp.sendRedirect("/users");
             } else {

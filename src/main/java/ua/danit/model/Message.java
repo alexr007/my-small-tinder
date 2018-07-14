@@ -3,7 +3,7 @@ package ua.danit.model;
 
 import java.sql.Timestamp;
 
-public class Yamnyk_messages {
+public class Message {
 
   private long messageId;
   private long sender;

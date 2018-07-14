@@ -2,8 +2,7 @@ package ua.danit.controllers;
 
 import freemarker.template.Template;
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.Yamnyk_users;
-import ua.danit.utils.CoockiesUtil;
+import ua.danit.model.User;
 import ua.danit.utils.FreemarkerInit;
 import ua.danit.utils.GeneratorID;
 
@@ -17,7 +16,7 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
 
         FreemarkerInit fm = new FreemarkerInit();
 
@@ -27,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+            throws IOException {
         String email = req.getParameter("email");
         String pass = req.getParameter("password");
         int gender = "male".equals(req.getParameter("gender")) ? 1 : 0;
@@ -35,8 +34,8 @@ public class RegisterServlet extends HttpServlet {
         String name = req.getParameter("name");
 
         UsersDAO usersDAO = new UsersDAO();
-        usersDAO.save(new Yamnyk_users(
-                    Long.valueOf(new GeneratorID().generateNewID()),
+        usersDAO.save(new User(
+                Long.valueOf(new GeneratorID().generateNewID()),
                 name,
                 gender,
                 imgURL,
