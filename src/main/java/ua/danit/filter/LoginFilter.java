@@ -1,4 +1,4 @@
-package ua.danit.controllers.filter;
+package ua.danit.filter;
 
 import ua.danit.dao.UsersDAO;
 import ua.danit.utils.CoockiesUtil;
