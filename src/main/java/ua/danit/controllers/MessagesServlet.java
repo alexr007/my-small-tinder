@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -41,13 +42,8 @@ public class MessagesServlet extends HttpServlet {
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo(myID, user.getId()));
 
-        Template tmpl = fm.getCfg().getTemplate("chat.html");
-        Writer out = resp.getWriter();
-        try {
-            tmpl.process(map, out);
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,map,"chat.html",this.getClass());
     }
 
     @Override
@@ -74,13 +70,8 @@ public class MessagesServlet extends HttpServlet {
         map.put("user", user);
         map.put("messages", new MessagesDAO().getByFromTo(myID,user.getId()));
 
-        Template tmpl = fm.getCfg().getTemplate("chat.html");
-        Writer out = resp.getWriter();
-        try {
-            tmpl.process(map, out);
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,map,"chat.html",this.getClass());
 	}
 
     private User createUserFromURI(HttpServletRequest req) {

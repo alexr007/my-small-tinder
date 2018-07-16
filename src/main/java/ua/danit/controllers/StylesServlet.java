@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class StylesServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String url = req.getPathInfo();
         url = url.substring(1,url.length());
         String out = FileUtils.readFileToString(new File(url),"UTF-8");

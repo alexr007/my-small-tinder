@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 
 public class RegisterServlet extends HttpServlet {
     @Override
@@ -20,8 +22,8 @@ public class RegisterServlet extends HttpServlet {
 
         FreemarkerInit fm = new FreemarkerInit();
 
-        Template tmpl = fm.getCfg().getTemplate("register.html");
-        resp.getWriter().write(tmpl.toString());
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,new HashMap<>(),"register.html",this.getClass());
     }
 
     @Override
@@ -47,7 +49,5 @@ public class RegisterServlet extends HttpServlet {
 
         resp.addCookie(cookie);
         resp.sendRedirect("/users");
-
-
     }
 }

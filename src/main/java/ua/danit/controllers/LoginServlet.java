@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
     @Override
@@ -18,8 +20,8 @@ public class LoginServlet extends HttpServlet {
             throws IOException {
         FreemarkerInit fm = new FreemarkerInit();
 
-        Template tmpl = fm.getCfg().getTemplate("login.html");
-        resp.getWriter().write(tmpl.toString());
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,new HashMap<>(),"login.html",this.getClass());
     }
 
     @Override

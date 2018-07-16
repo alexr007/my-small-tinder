@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,14 +38,8 @@ public class LikedServlet extends HttpServlet {
         		likedDAO.getLikesByUserID(myID), myID, likedDAO));
         map.put("myName", new UsersDAO().get(myID).getName());
 
-        Template tmpl = fm.getCfg().getTemplate("people-list.html");
-        Writer out = resp.getWriter();
-
-        try {
-            tmpl.process(map, out);
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,map,"people-list.html",this.getClass());
 
     }
 	
@@ -53,7 +48,7 @@ public class LikedServlet extends HttpServlet {
             throws IOException {
         FreemarkerInit fm = new FreemarkerInit();
 
-        Template tmpl = fm.getCfg().getTemplate("people-list.html");
-        resp.getWriter().write(tmpl.toString());
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,new HashMap<>(),"people-list.html",this.getClass());
 	}
 }

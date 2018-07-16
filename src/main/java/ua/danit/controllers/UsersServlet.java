@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,22 +40,15 @@ public class UsersServlet extends HttpServlet {
         User me = users.get(myID);
 
         counter = 0;
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         ArrayList<User> unliked = likedDAO.getUnliked(myID,users.get(myID).getGender());
         map.put("name", unliked.get(counter).getName());
         map.put("id", unliked.get(counter).getId().toString());
         map.put("imgURL", unliked.get(counter).getImgURL());
         map.put("myName", users.get(myID).getName());
 
-        Template tmpl = fm.getCfg().getTemplate("like-page.html");
-        Writer out = resp.getWriter();
-
-        try {
-            tmpl.process(map, out);
-            counter++;
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,map,"like-page.html",this.getClass());
     }
 	
 	@Override
@@ -89,19 +83,13 @@ public class UsersServlet extends HttpServlet {
             counter = 0;
         }
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("name", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getName());
         map.put("id", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getId().toString());
         map.put("imgURL", likedDAO.getUnliked(myID,users.get(myID).getGender()).get(counter).getImgURL());
         map.put("myName", users.get(myID).getName());
 
-        Template tmpl = fm.getCfg().getTemplate("like-page.html");
-        Writer out = resp.getWriter();
-        try {
-            tmpl.process(map, out);
-            counter++;
-        } catch (TemplateException e1) {
-            e1.printStackTrace();
-        }
+        PrintWriter out = resp.getWriter();
+        FreemarkerInit.processTamplate(out,map,"like-page.html",this.getClass());
 	}
 }
