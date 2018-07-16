@@ -16,7 +16,7 @@ public class FreemarkerInit {
 
     public static void processTamplate(PrintWriter writer, Map<String, Object> var, String tmplName, Class servletClass) throws IOException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_28);
-        cfg.setClassLoaderForTemplateLoading(servletClass.getClassLoader(), "/servlet");
+        cfg.setClassLoaderForTemplateLoading(servletClass.getClassLoader(), "/static");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setLogTemplateExceptions(false);
