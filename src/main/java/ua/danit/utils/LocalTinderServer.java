@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 public class LocalTinderServer {
-	public static void start() throws Exception{
+	public static void start(String port) throws Exception{
         final UsersDAO userDAO = new UsersDAO();
         final LikedDAO likedDAO = new LikedDAO();
 
-		new Server(8080){{
+		new Server(Integer.parseInt(port)){{
 			setHandler(new ServletContextHandler(){{
 				addServlet(new ServletHolder(new UsersServlet(userDAO, likedDAO)),
 						"/users/*");
