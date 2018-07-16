@@ -49,6 +49,7 @@ public class UsersServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
         FreemarkerInit.processTamplate(out,map,"like-page.html",this.getClass());
+        counter++;
     }
 	
 	@Override
@@ -78,9 +79,11 @@ public class UsersServlet extends HttpServlet {
 
         FreemarkerInit fm = new FreemarkerInit();
 
-        if(counter == likedDAO.getUnliked(myID, users.get(myID).getGender()).size()){
+        if(counter == likedDAO.getUnliked(myID, users.get(myID).getGender()).size()-1){
             resp.sendRedirect("/liked");
             counter = 0;
+        } else {
+            counter++;
         }
 
         Map<String, Object> map = new HashMap<>();
