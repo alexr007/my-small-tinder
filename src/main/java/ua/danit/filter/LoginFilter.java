@@ -27,7 +27,7 @@ public class LoginFilter implements Filter{
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        if("/login".equals(req.getServletPath())){
+        if("/login".equals(req.getServletPath()) || "/register".equals(req.getServletPath())){
             chain.doFilter(request, response);
             return;
         }
