@@ -13,8 +13,7 @@ public class MessagesDAO {
     public void save(Message msg) {
         String sql = "INSERT INTO yamnyk_messages(sender, recipient, text, message_time) VALUES(?,?,?,?)";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setLong(1, msg.getSender());
             statement.setLong(2, msg.getRecipient());
@@ -31,8 +30,7 @@ public class MessagesDAO {
     public void update(Message msg) {
         String sql = "UPDATE yamnyk_messages SET text=? WHERE message_id = ?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setString(1, msg.getText());
             statement.setLong(2, msg.getMessageId());
@@ -50,8 +48,7 @@ public class MessagesDAO {
                 "WHERE sender =? AND recipient=? UNION SELECT * FROM yamnyk_messages " +
                 "WHERE sender=? AND recipient=? ORDER BY message_time";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
         	statement.setLong(1, whoID);
         	statement.setLong(2, whomID);
@@ -76,8 +73,7 @@ public class MessagesDAO {
 	public void delete(Long messageID) {
         String sql = "DELETE FROM yamnyk_messages WHERE message_id=?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setLong(1, messageID);
 

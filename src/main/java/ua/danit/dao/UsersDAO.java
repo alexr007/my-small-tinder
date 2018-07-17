@@ -14,8 +14,7 @@ public class UsersDAO{
     public void save(User user) {
         String sql = "INSERT INTO yamnyk_users(id, name, imgURL, gender, password, email) VALUES(?,?,?,?,?,?)";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setLong(1, user.getId());
             statement.setString(2, user.getName());
@@ -34,8 +33,7 @@ public class UsersDAO{
     public User get(Long userID) {
         String sql = "SELECT * FROM yamnyk_users WHERE id=?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
         	statement.setLong(1, userID);
 
@@ -56,8 +54,7 @@ public class UsersDAO{
     public User getByEmailAndPass (String email, String pass) {
         String sql = "SELECT * FROM yamnyk_users WHERE email=? AND password=?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
         	statement.setString(1, email);
         	statement.setString(2, pass);
@@ -83,8 +80,7 @@ public class UsersDAO{
         String sql = "SELECT * FROM yamnyk_users WHERE email='"+email+"'";
         boolean answ = false;
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql);
             ResultSet rSet = statement.executeQuery()){
 
             while(rSet.next()) {

@@ -9,13 +9,17 @@ public class ConnectionToDB {
     private static final String USERNAME = "fs5_user";
     private static final String USER_PASS = "bArceloNa";
 
-    protected Connection getConnection(){ // toDo: connection pool? get connection, return connection
-        Connection connection = null;
-        try{
-            connection = DriverManager.getConnection(DB_URL,USERNAME, USER_PASS);
-        } catch (SQLException e){
-            e.printStackTrace();
+    private static Connection connection;
+
+    public static Connection getConnection() {
+        if (connection == null) {
+            try {
+                connection = DriverManager.getConnection(DB_URL, USERNAME, USER_PASS);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-         return connection;
+
+        return connection;
     }
 }

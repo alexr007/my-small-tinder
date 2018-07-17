@@ -14,8 +14,7 @@ public class LikedDAO {
     public void save(Like like) {
         String sql = "INSERT INTO yamnyk_liked(who, whom, time) VALUES(?,?,?)";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setLong(1, like.getWho());
             statement.setLong(2, like.getWhom());
@@ -31,8 +30,7 @@ public class LikedDAO {
     public void update(Like like) {
         String sql = "UPDATE yamnyk_liked SET time=? WHERE whom=?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setTimestamp(1, like.getTime());
             statement.setLong(2, like.getWhom());
@@ -48,8 +46,7 @@ public class LikedDAO {
         ArrayList<Like> liked = new ArrayList<>();
         String sql = "SELECT * FROM yamnyk_liked WHERE who=?";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
         	statement.setLong(1, myID);
 
@@ -75,8 +72,7 @@ public class LikedDAO {
                 "SELECT id FROM yamnyk_users RIGHT OUTER JOIN yamnyk_liked lkd ON  " +
                 "yamnyk_users.id = lkd.whom WHERE who = ?) AND gender != ?)";
 
-        try(Connection connection = new ConnectionToDB().getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql);){
+        try(PreparedStatement statement = ConnectionToDB.getConnection().prepareStatement(sql)){
 
             statement.setLong(1, myID);
             statement.setInt(2, myGender);
