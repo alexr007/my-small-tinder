@@ -1,10 +1,12 @@
 package ua.danit.utils;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import ua.danit.controllers.*;
 import ua.danit.dao.LikedDAO;
+import ua.danit.dao.MessagesDAO;
 import ua.danit.dao.UsersDAO;
 import ua.danit.filter.LoginFilter;
 
@@ -16,6 +18,7 @@ public class LocalTinderServer {
 	public static void start(String port) throws Exception{
         final UsersDAO userDAO = new UsersDAO();
         final LikedDAO likedDAO = new LikedDAO();
+		final MessagesDAO messagesDAO = new MessagesDAO();
 
 		new Server(Integer.parseInt(port)){{
 			setHandler(new ServletContextHandler(){{
@@ -23,18 +26,14 @@ public class LocalTinderServer {
 						"/users/*");
 				addServlet(new ServletHolder(new LikedServlet(userDAO, likedDAO)),
 						"/liked/*");
-				addServlet(new ServletHolder(new MessagesServlet(userDAO)),
+				addServlet(new ServletHolder(new MessagesServlet(userDAO, messagesDAO)),
 						"/messages/*");
 				addServlet(new ServletHolder(new StylesServlet()), "/assets/*");
-				addServlet(new ServletHolder(new LoginServlet()), "/login");
-				addServlet(new ServletHolder(new RegisterServlet()), "/register");
+				addServlet(new ServletHolder(new LoginServlet(userDAO)), "/login");
+				addServlet(new ServletHolder(new RegisterServlet(userDAO)), "/register");
 
-                for(String path : Arrays.asList("/users/*", "/messages/*", "/liked/*")){
-
-                    addFilter(LoginFilter.class, path,
-                            EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
-
-                }
+                addFilter(new FilterHolder(new LoginFilter(userDAO)),
+						"/*",EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD));
 
 			}});
 			start();

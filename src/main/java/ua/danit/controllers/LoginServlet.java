@@ -15,6 +15,12 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
+    private final UsersDAO usersDAO;
+
+    public LoginServlet(UsersDAO usersDAO) {
+        this.usersDAO = usersDAO;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -32,7 +38,6 @@ public class LoginServlet extends HttpServlet {
             String email = req.getParameter("email");
             String pass = req.getParameter("password");
 
-            UsersDAO usersDAO = new UsersDAO();
             if (logout != null) {
                 new CoockiesUtil().kill(req.getCookies(), resp);
                 resp.sendRedirect("/login");

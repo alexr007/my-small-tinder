@@ -16,6 +16,12 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class RegisterServlet extends HttpServlet {
+    private final UsersDAO usersDAO;
+
+    public RegisterServlet(UsersDAO usersDAO) {
+        this.usersDAO = usersDAO;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -35,7 +41,6 @@ public class RegisterServlet extends HttpServlet {
         String imgURL = req.getParameter("imgURL");
         String name = req.getParameter("name");
 
-        UsersDAO usersDAO = new UsersDAO();
         usersDAO.save(new User(
                 Long.valueOf(new GeneratorID().generateNewID()),
                 name,

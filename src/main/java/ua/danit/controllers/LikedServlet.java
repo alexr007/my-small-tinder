@@ -36,7 +36,7 @@ public class LikedServlet extends HttpServlet {
         Map<String, Object> map = new HashMap<>();
         map.put("liked", usersDAO.getUsersFromLikesList(
         		likedDAO.getLikesByUserID(myID), myID, likedDAO));
-        map.put("myName", new UsersDAO().get(myID).getName());
+        map.put("myName", usersDAO.get(myID).getName());
 
         PrintWriter out = resp.getWriter();
         FreemarkerInit.processTamplate(out,map,"people-list.html",this.getClass());

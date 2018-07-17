@@ -23,8 +23,10 @@ import java.util.Map;
 
 public class MessagesServlet extends HttpServlet {
     private final UsersDAO users;
+    private final MessagesDAO messagesDAO;
 
-    public MessagesServlet(UsersDAO userDAO) {
+    public MessagesServlet(UsersDAO userDAO, MessagesDAO messagesDAO) {
+        this.messagesDAO = messagesDAO;
         this.users = userDAO;
     }
 
@@ -38,9 +40,9 @@ public class MessagesServlet extends HttpServlet {
 
         Map<String, Object> map = new HashMap<>();
         User user = createUserFromURI(req);
-        map.put("me",new UsersDAO().get(myID));
+        map.put("me",users.get(myID));
         map.put("user", user);
-        map.put("messages", new MessagesDAO().getByFromTo(myID, user.getId()));
+        map.put("messages", messagesDAO.getByFromTo(myID, user.getId()));
 
         PrintWriter out = resp.getWriter();
         FreemarkerInit.processTamplate(out,map,"chat.html",this.getClass());
@@ -52,7 +54,6 @@ public class MessagesServlet extends HttpServlet {
         String text = req.getParameter("textMSG");
         Long myID = Long.valueOf(new CoockiesUtil().getID(req.getCookies()));
 
-        MessagesDAO messagesDAO = new MessagesDAO();
         Message msg = new Message();
         User user = createUserFromURI(req);
 
@@ -66,9 +67,9 @@ public class MessagesServlet extends HttpServlet {
         FreemarkerInit fm = new FreemarkerInit();
 
         Map<String, Object> map = new HashMap<>();
-        map.put("me",new UsersDAO().get(myID));
+        map.put("me",users.get(myID));
         map.put("user", user);
-        map.put("messages", new MessagesDAO().getByFromTo(myID,user.getId()));
+        map.put("messages", messagesDAO.getByFromTo(myID,user.getId()));
 
         PrintWriter out = resp.getWriter();
         FreemarkerInit.processTamplate(out,map,"chat.html",this.getClass());
