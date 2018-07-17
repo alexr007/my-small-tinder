@@ -1,7 +1,6 @@
 package ua.danit.filter;
 
 import ua.danit.dao.UsersDAO;
-import ua.danit.model.User;
 import ua.danit.utils.CoockiesUtil;
 
 import javax.servlet.*;
@@ -37,8 +36,7 @@ public class LoginFilter implements Filter{
             if(new CoockiesUtil().getID(req.getCookies()) == null){
                 resp.sendRedirect("/login");
             } else if(usersDAO.get(Long.valueOf(
-                    new CoockiesUtil()
-                            .getID(req.getCookies()))) == null){
+                    new CoockiesUtil().getID(req.getCookies()))) == null){
 
                 resp.sendRedirect("/login");
 
